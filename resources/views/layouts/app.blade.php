@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     {{-- CSRF Token --}}
-    <meta name="csrd-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'LaraBBS 2') - Laravel 进阶进阶教程</title>
 
