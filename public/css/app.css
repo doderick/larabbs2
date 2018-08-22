@@ -8356,6 +8356,11 @@ body {
   font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial, sans-serif;
 }
 
+textarea {
+  resize: vertical;
+  min-height: 81px;
+}
+
 /* header */
 
 .navbar-static-top {

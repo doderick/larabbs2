@@ -9,16 +9,15 @@
             <div class="panel-body">
                 <div class="media">
                     <div align="center">
-                        <img src="https://fsdhubcdn.phphub.org/uploads/images/201709/20/1/PtDKbASVcz.png?imageView2/1/w/600/h/600"
-                            alt="{{ $user->name }}" class="thumbnail img-responsive" width="300px" height="300px">
+                        <img src="{{ $user->avatar }}" class="thumbnail img-responsive" width="300px" height="300px">
                     </div>
                     <div class="media-body">
                         <hr>
                         <h4><strong>个人简介</strong></h4>
-                        <p>曾经的炼金术师，现在立志成为一名 phper ！</p>
+                        <p>{{ $user->introduction }}</p>
                         <hr>
                         <h4><strong>注册于</strong></h4>
-                        <p>June 14 2018</p>
+                        <p>{{ $user->created_at->diffForHumans() }}</p>
                     </div>
                 </div>
             </div>

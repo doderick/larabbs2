@@ -33,18 +33,29 @@
                     <li class="dropdown">
                         <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="user-avatar pull-left" style="margin-right: 8px; margin-top: -5px;">
-                                <img src="https://fsdhubcdn.phphub.org/uploads/images/201709/20/1/PtDKbASVcz.png?imageView2/1/w/60/h/60" alt=""
-                                    class="img-responsive img-circle" width="30px" height="30px">
+                                <img src="" class="img-responsive img-circle" width="30px" height="30px">
                             </span>
                             {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
                         <ul role="menu" class="dropdown-menu">
                             <li>
+                                <a href="{{ route('users.show', Auth::id()) }}">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    个人中心
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ route('users.edit', Auth::id()) }}">
+                                    <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                                    编辑资料
+                                </a>
+                            </li>
+                            <li>
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                             document.getElementById('logout-form').submit();">
-                                    <span class="glyphicon glyphicon-logout" aria-hidden="true"></span>
+                                    <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
                                     退出登录
                                 </a>
                                 <form action="{{ route('logout') }}" method="post" id="logout-form" style="display: none;">
