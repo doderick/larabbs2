@@ -46,7 +46,8 @@
                     </div>
                     <div class="well well-sm">
                         <button type="submit" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> 保存
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            {{ $topic->id ? ' 保存' : ' 发布' }}
                         </button>
                     </div>
                 </form>
