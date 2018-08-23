@@ -42,7 +42,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <textarea name="body" id="body-field" class="form-control" rows="3" placeholder="请填入至少三个字符的内容">{{ old('body', $topic->body ) }}</textarea>
+                        <textarea name="body" id="editor" class="form-control" rows="3" placeholder="请填入至少三个字符的内容~">{{ old('body', $topic->body ) }}</textarea>
                     </div>
                     <div class="well well-sm">
                         <button type="submit" class="btn btn-primary">
@@ -56,4 +56,23 @@
     </div>
 </div>
 
+@stop
+
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('css/simditor.css') }}">
+@stop
+
+@section('scripts')
+    <script src="{{ asset('js/module.js') }}"></script>
+    <script src="{{ asset('js/hotkeys.js') }}"></script>
+    <script src="{{ asset('js/uploader.js') }}"></script>
+    <script src="{{ asset('js/simditor.js') }}"></script>
+
+    <script>
+        $(document).ready(function(){
+            var editor = new Simditor({
+                textarea: $('#editor'),
+            });
+        });
+    </script>
 @stop
