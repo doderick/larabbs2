@@ -14,11 +14,12 @@ class CategoriesController extends Controller
      * @param Category $category 分类的一个实例
      * @return void
      */
-    public function show(Category $category)
+    public function show(Category $category, Topic $topic, Request $request)
     {
         // 读取分类 ID 关联话题， 并分页
-        $topics = Topic::where('category_id', $category->id)
-                        ->with('category', 'user')
+        $topics = $topic->withOrder($request->order)
+                        ->where('category_id', $category->id)
+
                         ->paginate(20);
 
         return view('topics.index', compact('topics', 'category'));
