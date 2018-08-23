@@ -39,7 +39,20 @@
         {{-- 用户发布的内容 --}}
         <div class="panel panel-default">
             <div class="panel-body">
-                暂无数据 o(╯□╰)o
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="#">
+                            <strong>{{ ! Auth::check() || Auth::user()->id !== $user->id ? 'Ta ' : '我 ' }}</strong>的话题
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="#">
+                            <strong>{{ ! Auth::check() || Auth::user()->id !== $user->id ? 'Ta ' : '我 ' }}</strong>的回复
+                        </a>
+                    </li>
+
+                </ul>
+                @include('users._topics', ['topics' => $user->topics()->recent()->paginate(5)]);
             </div>
         </div>
     </div>
