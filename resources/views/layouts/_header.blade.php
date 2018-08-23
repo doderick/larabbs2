@@ -36,6 +36,12 @@
                     <li><a href="{{ route('register') }}">注册</a></li>
                 {{-- 登录用户显示退出登录 --}}
                 @else
+                    {{-- 发布新话题的按钮 --}}
+                    <li>
+                        <a href="{{ route('topics.create') }}">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </a>
+                    </li>
                     <li class="dropdown">
                         <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="user-avatar pull-left" style="margin-right: 8px; margin-top: -5px;">

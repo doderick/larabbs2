@@ -12,6 +12,8 @@ class CategoriesController extends Controller
      * 根据分类显示话题的方法
      *
      * @param Category $category 分类的一个实例
+     * @param Topic $topic       话题的一个实例
+     * @param Request $request   http 请求
      * @return void
      */
     public function show(Category $category, Topic $topic, Request $request)
