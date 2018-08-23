@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TopicRequest;
 use App\Models\Category;
 use Auth;
+use App\Handlers\ImageUploadHandler;
 
 class TopicsController extends Controller
 {
@@ -49,7 +50,36 @@ class TopicsController extends Controller
         $topic->save();
 
 		return redirect()->route('topics.show', $topic->id)->with('success', '话题发布成功！');
-	}
+    }
+
+    /**
+     * 话题中上传图片的方法
+     *
+     * @param Request $request             上传图片的请求
+     * @param ImageUploadhandler $uploader 上传图片工具
+     * @return void
+     */
+    public function uploadImage(Request $request, ImageUploadhandler $uploader)
+    {
+        // 初始化返回数据，默认为失败
+        $data = [
+            'success'   => false,
+            'msg'       => '图片上传失败',
+            'file_path' => '',
+        ];
+        // 判断是否有上传文件，并赋值给 $file
+        if ($file = $request->upload_file) {
+            // 保存图片到本地
+            $result = $uploader->save($request->upload_file, 'topics', Auth::id(), 1000);
+            // 图片保存成功的情况
+            if ($result) {
+                $data['file_path'] = $result['path'];
+                $data['msg']       = '图片上传成功！';
+                $data['success']   = true;
+            }
+        }
+        return $data;
+    }
 
 	public function edit(Topic $topic)
 	{
