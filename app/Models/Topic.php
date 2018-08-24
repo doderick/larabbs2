@@ -72,4 +72,9 @@ class Topic extends Model
         // 当有新回复发生时，该时间戳将会被更新
         return $query->orderBy('updated_at', 'desc');
     }
+
+    public function link($params = [])
+    {
+        return route('topics.show', array_merge([$this->id, $this->slug], $params));
+    }
 }
