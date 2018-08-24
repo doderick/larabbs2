@@ -35,15 +35,23 @@
                 <div class="topic-body">
                     {!! $topic->body !!}
                 </div>
-                <div class="operate">
-                    <hr>
-                    <a href="{{ route('topics.edit', $topic->id) }}" role="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-edit"></span> 编辑
-                    </a>
-                    <a href="#" role="button" class="btn btn-default btn-xs">
-                        <span class="glyphicon glyphicon-trash"></span> 删除
-                    </a>
-                </div>
+                @can ('update', $topic)
+                    <div class="operate">
+                        <hr>
+                        <a href="{{ route('topics.edit', $topic->id) }}" role="button" class="btn btn-default btn-xs pull-left">
+                            <span class="glyphicon glyphicon-edit"></span> 编辑
+                        </a>
+                        <form action="{{ route('topics.destroy', $topic->id) }}" method="post">
+                            {{ csrf_field() }}
+                            {{ method_field('DELETE') }}
+                            <button type="submit" class="btn btn-default btn-xs pull-left" style="margin-left: 6px;"
+                                    onclick="return function(){return confirm('删除后不可恢复，你确认要删除吗？')}()">
+                                <span class="glyphicon glyphicon-trash"></span> 删除
+                            </button>
+                        </form>
+
+                    </div>
+                @endcan
             </div>
         </div>
     </div>

@@ -16,11 +16,18 @@ class TopicPolicy extends Policy
      */
     public function update(User $user, Topic $topic)
     {
-        return $topic->user_id == $user->id;
+        return $user->isAuthorOf($topic);
     }
 
+    /**
+     * 话题 destroy 操作的权限认证
+     *
+     * @param User $user    提出删除请求的用户实例，当前登录用户
+     * @param Topic $topic  要进行删除操作的话题实例
+     * @return void
+     */
     public function destroy(User $user, Topic $topic)
     {
-        return true;
+        return $user->isAuthorOf($topic);
     }
 }
