@@ -29,6 +29,16 @@ class Topic extends Model
     }
 
     /**
+     * 处理话题与回复之间的关联，一个话题可以拥有多条回复
+     *
+     * @return void
+     */
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
      * 依据不同的排序方式，选择不同数据读取逻辑的方法
      *
      * @param [type] $query 数据库读取语句

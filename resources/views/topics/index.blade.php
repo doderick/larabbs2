@@ -23,7 +23,7 @@
                 {{-- 话题列表 --}}
                 @include('topics._topic_list', ['topics' => $topics])
                 {{-- 分页 --}}
-                {!! $topics->render() !!}
+                {!! $topics->appends($request->except('page'))->render() !!}
             </div>
         </div>
     </div>

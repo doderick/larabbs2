@@ -40,19 +40,23 @@
         <div class="panel panel-default">
             <div class="panel-body">
                 <ul class="nav nav-tabs">
-                    <li class="active">
-                        <a href="#">
+                    <li class="{{ active_class(if_query('tab', null)) }}">
+                        <a href="{{ route('users.show', $user->id) }}">
                             <strong>{{ ! Auth::check() || Auth::user()->id !== $user->id ? 'Ta ' : '我 ' }}</strong>的话题
                         </a>
                     </li>
-                    <li class="">
-                        <a href="#">
+                    <li class="{{ active_class(if_query('tab', 'replies')) }}">
+                        <a href="{{ route('users.show', [$user->id, 'tab' => 'replies']) }}">
                             <strong>{{ ! Auth::check() || Auth::user()->id !== $user->id ? 'Ta ' : '我 ' }}</strong>的回复
                         </a>
                     </li>
 
                 </ul>
-                @include('users._topics', ['topics' => $user->topics()->recent()->paginate(5)]);
+                @if (if_query('tab', 'replies'))
+                    @include('users._replies', ['replies' => $user->replies()->with('topic')->recent()->paginate(5)])
+                @else
+                    @include('users._topics', ['topics' => $user->topics()->recent()->paginate(5)]);
+                @endif
             </div>
         </div>
     </div>

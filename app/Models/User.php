@@ -38,6 +38,16 @@ class User extends Authenticatable
     }
 
     /**
+     * 处理用户和回复之间的关联，一个用户可以拥有多条回复
+     *
+     * @return void
+     */
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
      * 用户权限认证的方法
      *
      * @param [type] $model 需要进行认证的模型
