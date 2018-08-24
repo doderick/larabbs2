@@ -22,6 +22,14 @@ class BaiduTranslateHandler
         $this->key   = config('services.baidu_translate.key');
     }
 
+    /**
+     * 翻译slug的方法
+     *
+     * @param [type] $text 需要翻译的文本
+     * @param string $to   目标语言，默认英语
+     * @param string $from 源语言，自动选择
+     * @return void
+     */
     public function translate($text, $to = 'en', $from = 'auto')
     {
         // 如果没有配置百度翻译，自动使用兼容的拼音方案
@@ -46,11 +54,25 @@ class BaiduTranslateHandler
         }
     }
 
+    /**
+     * slug 翻译的备选拼音方案
+     *
+     * @param [type] $text 需要翻译的文本
+     * @return void
+     */
     public function pinyin($text)
     {
         return str_slug(app(Pinyin::class)->permalink($text) . '-larabbs');
     }
 
+    /**
+     * 生成翻译请求的方法
+     *
+     * @param [type] $text 需要翻译的文本
+     * @param [type] $to   目标语言
+     * @param [type] $from 源语言
+     * @return void
+     */
     private function translateRequestToBaidu($text, $to, $from)
     {
         $salt = time();
