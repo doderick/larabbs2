@@ -16,7 +16,7 @@
                             <label for="email" class="col-md-4 control-label">E-Mail 地址</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
@@ -30,7 +30,7 @@
                             <label for="password" class="col-md-4 control-label">密　码</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
+                                <input id="password" type="password" class="form-control" name="password">
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
@@ -47,6 +47,23 @@
                                         <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> 请记住我
                                     </label>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('captcha') ? ' has-error' : '' }}">
+                            <label for="captcha" class="col-md-4 control-label">验证码</label>
+
+                            <div class="col-md-6">
+                                <input id="captcha" type="text" class="form-control" name="captcha">
+
+                                <img src="{{ captcha_src('flat') }}" class="thunbnail captcha"
+                                        onclick="this.src='/captcha/flat?'+Math.random()" title="点击图片重新获取验证码">
+
+                                @if ($errors->has('captcha'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('captcha') }}</strong>
+                                    </span>
+                                @endif
                             </div>
                         </div>
 

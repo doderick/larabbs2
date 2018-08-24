@@ -8423,7 +8423,8 @@ body {
 
 /* User register page */
 
-.register-page img.captcha {
+.register-page img.captcha,
+.login-page img.captcha {
   margin-top: 10px;
   margin-bottom: 0px;
   cursor: pointer;
