@@ -56,25 +56,31 @@ class RepliesController extends Controller
 		return redirect()->to($reply->topic->link())->with('success', '回复成功！');
 	}
 
-	public function edit(Reply $reply)
-	{
-        $this->authorize('update', $reply);
-		return view('replies.create_and_edit', compact('reply'));
-	}
+	// public function edit(Reply $reply)
+	// {
+    //     $this->authorize('update', $reply);
+	// 	return view('replies.create_and_edit', compact('reply'));
+	// }
 
-	public function update(ReplyRequest $request, Reply $reply)
-	{
-		$this->authorize('update', $reply);
-		$reply->update($request->all());
+	// public function update(ReplyRequest $request, Reply $reply)
+	// {
+	// 	$this->authorize('update', $reply);
+	// 	$reply->update($request->all());
 
-		return redirect()->route('replies.show', $reply->id)->with('message', 'Updated successfully.');
-	}
+	// 	return redirect()->route('replies.show', $reply->id)->with('message', 'Updated successfully.');
+	// }
 
-	public function destroy(Reply $reply)
+    /**
+     * 删除回复的方法
+     *
+     * @param Reply $reply 回复的实例
+     * @return void
+     */
+    public function destroy(Reply $reply)
 	{
 		$this->authorize('destroy', $reply);
 		$reply->delete();
 
-		return redirect()->route('replies.index')->with('success', '删除回复成功！');
+		return redirect()->to($reply->topic->link())->with('success', '删除回复成功！');
 	}
 }

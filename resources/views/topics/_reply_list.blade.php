@@ -15,11 +15,17 @@
                     <span> •  </span>
                     <span title="{{ $reply->created_at }}" class="meta">{{ $reply->created_at->diffForHumans() }}</span>
                     {{-- 回复删除按钮 --}}
-                    <span class="meta pull-right">
-                        <a title="删除回复按钮">
-                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
-                        </a>
-                    </span>
+                    @can ('destroy', $reply)
+                        <span class="meta pull-right">
+                            <form action="{{ route('replies.destroy', $reply->id) }}" method="post">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <button type="submit" class="btn btn-default btn-xs pull-left" onclick="return function(){return confirm('你确定要删除吗？')}()">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </form>
+                        </span>
+                    @endcan
                 </div>
                 <div class="reply-content">
                     {!! $reply->content !!}
@@ -28,4 +34,6 @@
         </div>
         <hr>
     @endforeach
+
+    {!! $replies->appends(Request::except('page'))->render() !!}
 </div>
