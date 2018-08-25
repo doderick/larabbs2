@@ -8361,6 +8361,12 @@ textarea {
   min-height: 81px;
 }
 
+ul,
+ol,
+li {
+  list-style: none;
+}
+
 /* header */
 
 .navbar-static-top {
