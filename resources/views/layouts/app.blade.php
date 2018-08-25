@@ -31,6 +31,11 @@
 
     </div>
 
+    {{-- 植入 SudoSu 工具 --}}
+    @if (app()->isLocal())
+        @include('sudosu::user-selector')
+    @endif
+
     {{-- scripts --}}
     <script src="{{ asset('js/app.js') }}"></script>
     @yield('scripts')

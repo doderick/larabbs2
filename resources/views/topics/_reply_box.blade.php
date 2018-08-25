@@ -8,7 +8,7 @@
             <textarea name="content" rows="3" class="form-control" placeholder="分享你的看法"></textarea>
         </div>
         <button type="submit" class="btn btn-primary btn-sm">
-            <span class="fa fa-share"></span>回复
+            <span class="fa fa-share"></span> 回复
         </button>
     </form>
 </div>

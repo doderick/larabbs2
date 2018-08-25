@@ -40,11 +40,15 @@ class RepliesController extends Controller
      */
     public function store(ReplyRequest $request, Reply $reply)
 	{
+        // 预防 XSS 攻击
+        $content = clean($request->content);
+
+        // 过滤后如果内容为空，则返回并给出错误提示
         if (empty($content)) {
             return redirect()->back()->with('danger', '回复内容无法识别！');
         }
 
-        $reply->content  = $request->content;
+        $reply->content  = $content;
         $reply->topic_id = $request->topic_id;
         $reply->user_id  = AUth::id();
         $reply->save();

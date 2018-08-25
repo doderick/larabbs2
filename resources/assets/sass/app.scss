@@ -40,6 +40,16 @@ ul, ol, li {
     }
 }
 
+.notifications-badge {
+    margin-top: -1px;
+    .badge-hint {
+        background-color: #d15b47 !important;
+    }
+    .badge-fade {
+        background-color: #ebe8e8;
+    }
+}
+
 /* Sticky footer styles */
 
 html {

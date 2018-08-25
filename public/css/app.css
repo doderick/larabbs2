@@ -8392,6 +8392,18 @@ li {
   margin-right: 8px;
 }
 
+.notifications-badge {
+  margin-top: -1px;
+}
+
+.notifications-badge .badge-hint {
+  background-color: #d15b47 !important;
+}
+
+.notifications-badge .badge-fade {
+  background-color: #ebe8e8;
+}
+
 /* Sticky footer styles */
 
 html {

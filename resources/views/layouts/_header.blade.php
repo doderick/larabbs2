@@ -42,6 +42,14 @@
                             <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         </a>
                     </li>
+                    {{-- Notifications --}}
+                    <li>
+                        <a href="{{ route('notifications.index') }}" class="notifications-badge">
+                            <span title="消息提醒" class="badge badge-{{ Auth::user()->notification_count > 0 ? 'hint' : 'fade' }}">
+                                {{ Auth::user()->notification_count }}
+                            </span>
+                        </a>
+                    </li>
                     <li class="dropdown">
                         <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                             <span class="user-avatar pull-left" style="margin-right: 8px; margin-top: -5px;">
