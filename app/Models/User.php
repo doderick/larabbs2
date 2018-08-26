@@ -86,4 +86,36 @@ class User extends Authenticatable
         $this->save();
         $this->unreadNotifications->markAsRead();
     }
+
+    /**
+     * 对后台上传的用户的密码进行加密的方法
+     *
+     * @param string $value 后台上传的未加密的用户密码
+     * @return void
+     */
+    public function setPasswordAttribute($value)
+    {
+        // 如果值的长度等于 60， 认为已经做过加密处理
+        if (strlen($value) !== 60) {
+            // 对不等于 60 的情况进行加密处理
+            $value = bcrypt($value);
+        }
+        $this->attributes['password'] = $value;
+    }
+
+    /**
+     * 拼接后台上传的用户头像的 URL 的方法
+     *
+     * @param string $path 后台上传的头像的 URL 地址
+     * @return void
+     */
+    public function setAvatarAttribute($path)
+    {
+        // 如果不是 'http' 开头，头像为后台上传，需要补全 URL
+        if (! starts_with($path, ['http', 'https'])) {
+            // 拼接完整的 URL
+            $path = config('app.url') . '/uploads/images/avatars/' . $path;
+        }
+        $this->attributes['avatar'] = $path;
+    }
 }

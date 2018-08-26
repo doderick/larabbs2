@@ -31,7 +31,7 @@ class ImageUploadHandler
         }
 
         // 构建存储的目录
-        $folder_name = "uploads/image/{$folder}/" . date('Ym/d', time());
+        $folder_name = "uploads/images/{$folder}/" . date('Ym/d', time());
 
         // 构建文件存储的物理路径
         $upload_path = public_path() . '/' . $folder_name;
