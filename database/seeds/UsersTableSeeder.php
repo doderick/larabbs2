@@ -46,11 +46,17 @@ class UsersTableSeeder extends Seeder
         $user->avatar   = "http://larabbs2.test/uploads/image/avatars/201808/23/1_1534954556_s5D9KI0vZj.png";
         $user->save();
 
+        // 将 ID=1 的用户指定为『站长』
+        $user->assignRole('Founder');
+
         $user = User::find(2);
         $user->name     = 'JJ-711';
         $user->email    = 'jiajun5427@163.com';
         $user->password = bcrypt('222222');
         $user->avatar   = "http://larabbs2.test/uploads/image/avatars/201808/23/2_1534992175_QL9rySjAdi.png";
         $user->save();
+
+        // 将 ID=2 的用户指定为『管理员』
+        $user->assignRole('Administrator');
     }
 }
