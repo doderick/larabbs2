@@ -28,6 +28,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
-    }
+        // 限制 Horizon 的访问权限，仅站长可以访问
+        \Horizon::auth(function ($request) {
+            return \Auth::user()->hasRole('Founder');
+        });
+;    }
 }
