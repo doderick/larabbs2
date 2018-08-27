@@ -10,7 +10,8 @@ return [
     // 对 CRUD 动作的单独权限控制，其它动作不指定，默认为通过
     'action_permissions' => [
         // 删除权限控制，只有站长可以删除分类
-        'delete' => function() {
+        'delete' => function()
+        {
             return Auth::user()->hasRole('Founder');
         }
     ],

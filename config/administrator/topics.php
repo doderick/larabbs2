@@ -15,21 +15,24 @@ return [
         'category'    => [
             'title'    => '分类',
             'sortable' => false,
-            'output'   => function($value, $model) {
+            'output'   => function($value, $model)
+            {
                 return model_admin_link($model->category->name, $model->category);
             }
         ],
         'title'       => [
             'title'    => '话题',
             'sortable' => false,
-            'output'   => function($value, $model) {
+            'output'   => function($value, $model)
+            {
                 return '<div style="max-width:400px">' . model_link($value, $model) . '</div>';
             },
         ],
         'user'        => [
             'title'    => '作者',
             'sortable' => false,
-            'output'   => function($value, $model) {
+            'output'   => function($value, $model)
+            {
                 $avatar = $model->user->avatar;
                 $value  = empty($avatar) ? 'N/A' : '<img src="' . $avatar . '" style="width:22px;height:22px"> ' . $model->user->name;
                 return model_link($value, $model->user);

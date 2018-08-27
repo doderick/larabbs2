@@ -14,14 +14,16 @@ return [
         'content'   => [
             'title'    => '内容',
             'sortable' => false,
-            'output'   => function($value, $model) {
+            'output'   => function($value, $model)
+            {
                 return '<div style="max-width:220px">' . $value . '</div>';
             },
         ],
         'user'      => [
             'title'    => '作者',
             'sortable' => false,
-            'output'   => function($value, $model) {
+            'output'   => function($value, $model)
+            {
                 $avatar = $model->user->avatar;
                 $value = empty($avatar) ? 'N/A' : '<img src="' . $avatar . '" style="width:22px;height:22px"> ' . $model->user->name;
                 return model_link($value, $model->user);
@@ -30,7 +32,8 @@ return [
         'topic'     => [
             'title'    => '话题',
             'sortable' => false,
-            'output'   => function($value, $model) {
+            'output'   => function($value, $model)
+            {
                 return '<div stylr="max-width:260px">' . model_admin_link(e($model->topic->title), $model->topic) . '</div>';
             }
         ],

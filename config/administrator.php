@@ -69,6 +69,9 @@ return array(
             'topics',
             'replies',
         ],
+        '站点管理' => [
+            'settings.site',
+        ],
     ],
 
     /*
@@ -77,7 +80,8 @@ return array(
      *
      * @type closure
      */
-    'permission' => function () {
+    'permission' => function ()
+    {
         // 允许具有管理内容权限的用户访问后台
         return Auth::check() && Auth::user()->can('manage_contents');
     },

@@ -7,26 +7,31 @@ return [
     'single' => '权限',
     'model'  => Permission::class,
 
-    'permission' => function() {
+    'permission' => function()
+    {
         return Auth::user()->can('manage_users');
     },
 
     // 对 CRUD 动作的单独权限控制，通过返回布尔值来控制权限
     'action_permissions' => [
         // 控制『新建按钮』的显示
-        'create' => function($model) {
+        'create' => function($model)
+        {
             return true;
         },
         // 允许更新
-        'update' => function($model) {
+        'update' => function($model)
+        {
             return true;
         },
         // 不允许删除
-        'delete' => function($model) {
+        'delete' => function($model)
+        {
             return false;
         },
         // 允许查看
-        'view' => function($model) {
+        'view' => function($model)
+        {
             return true;
         },
     ],

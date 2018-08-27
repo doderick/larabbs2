@@ -13,7 +13,8 @@ return [
     'model' => User::class,
 
     // 设置访问权限，返回布尔值， true 权限验证通过， false 权限验证不通过，并隐藏入口
-    'permission' => function() {
+    'permission' => function()
+    {
         return Auth::user()->can('manage_users');
     },
 
@@ -29,7 +30,8 @@ return [
             'title' => '头像',
 
             // 默认情况下会直接输出数据， 也可以使用 output 选项来定制输出的内容
-            'output' => function ($avatar, $model) {
+            'output' => function ($avatar, $model)
+            {
                 return empty($avatar) ? 'N/A' : '<img src="' . $avatar . '" style="width:40px;height:40px">';
             },
 
@@ -39,7 +41,8 @@ return [
 
         'name' => [
             'title' => '用户名',
-            'output' => function ($name, $model) {
+            'output' => function ($name, $model)
+            {
                 return '<a href="/users/' . $model->id . '" target="_blank">' . $name . '</a>';
             },
         ],

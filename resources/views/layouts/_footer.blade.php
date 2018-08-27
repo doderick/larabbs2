@@ -5,7 +5,7 @@
             <span style="color: #e27575; font-size: 14px;">❤</span>
         </p>
         <p class="pull-right">
-            <a href="mailto:doderick@outlook.com">请联系我</a>
+            <a href="mailto:{{ setting('contact_email') }}">请联系我</a>
         </p>
     </div>
 </footer>

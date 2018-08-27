@@ -20,7 +20,8 @@ return [
         ],
         'permissions' => [
             'title'  => '权限',
-            'output' => function($value, $model) {
+            'output' => function($value, $model)
+            {
                 $model->load('permissions');
                 $result = [];
                 foreach ($model->permissions as $permission) {
