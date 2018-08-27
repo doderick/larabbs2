@@ -20,7 +20,9 @@ return [
     // 字段负责渲染『数据表格』，由无数的『列』组成
     'columns' => [
         // 列标识，读取模型里对应的属性的值
-        'id',
+        'id' => [
+            'title' => 'ID',
+        ],
 
         'avatar' => [
             // 数据表里的名称，默认会使用『列标识』
@@ -28,7 +30,7 @@ return [
 
             // 默认情况下会直接输出数据， 也可以使用 output 选项来定制输出的内容
             'output' => function ($avatar, $model) {
-                return empty($avatar) ? 'N/A' : '<img src="' . $avatar . '" width="40">';
+                return empty($avatar) ? 'N/A' : '<img src="' . $avatar . '" style="width:40px;height:40px">';
             },
 
             // 是否允许排序
@@ -40,11 +42,11 @@ return [
             'output' => function ($name, $model) {
                 return '<a href="/users/' . $model->id . '" target="_blank">' . $name . '</a>';
             },
-            'sortable' => false,
         ],
 
         'email' => [
             'title' => '邮箱',
+            'sortable' => false,
         ],
 
         'operation' => [
