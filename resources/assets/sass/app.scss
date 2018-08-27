@@ -163,6 +163,23 @@ body {
     }
 }
 
+.sidebar {
+    .panel-body {
+        padding: 12px;
+    }
+    hr {
+        margin-top: 8px;
+        margin-bottom: 10px;
+    }
+    .active_users {
+        a.media {
+            color: #797878;
+            line-height: 26px;
+            font-size: 0.9em;
+        }
+    }
+}
+
 /* Topic Show Page */
 
 @import "topic_body";
