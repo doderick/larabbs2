@@ -18,14 +18,11 @@ trait LastActivedAtHelper
      */
     public function recordLastActivedAt()
     {
-        // 获得今天的日期
-        $date = Carbon::now()->toDateString();
+        // 获取今天 Redis 哈希表的名称
+        $hash = $this->getHashFormDateString(Carbon::now()->toDateString());
 
-        // Redis 哈希表的命名
-        $hash = $this->hash_prefix . $date;
-
-        // 字段名称
-        $field = $this->field_prefix . $this->id;
+        // 获取字段名称
+        $field = $this->getHashField();
 
         // 获得当前时间
         $now = Carbon::now()->toDateTimeString();
@@ -41,14 +38,11 @@ trait LastActivedAtHelper
      */
     public function getLastActivedAtAttribute($value)
     {
-        // 获得今天的日期
-        $date = Carbon::now()->toDateString();
-
-        // 命名 Redis 哈希表
-        $hash = $this->hash_prefix . $date;
+        // 获取进店的 Redis 哈希表名称
+        $hash = $this->getHashFormDateString(Carbon::now()->toDateString());
 
         // 命名字段
-        $field = $this->field_prefix . $this->id;
+        $field = $this->getHashField();
 
         // 选择 Redis 中的数据，如果不存在，则使用数据库中的数据
         $datetime = Redis::hGet($hash, $field) ?: $value;
@@ -69,14 +63,8 @@ trait LastActivedAtHelper
      */
     public function syncUserActivedAt()
     {
-        // 获取昨天的日期
-        $yesterday_date = Carbon::yesterday()->toDateString();
-
-        // 测试用，获取今天的日期
-        // $yesterday_date = Carbon::now()->toDateString();
-
-        // Redis 哈希表的命名
-        $hash = $this->hash_prefix . $yesterday_date;
+        // 获取昨天的 Redis 哈希表名称
+        $hash = $this->getHashFormDateString(Carbon::yesterday()->toDateString());
 
         // 从 Redis 中获取所有哈希表里的数据
         $dates = Redis::hGetAll($hash);
@@ -94,5 +82,26 @@ trait LastActivedAtHelper
         }
         // 如果已经完成同步了，则可以删除 Redis 哈希表
         Redis::del($hash);
+    }
+
+    /**
+     * Redis 哈希表的命名
+     *
+     * @param string $date
+     * @return string Redis 哈希表的名称
+     */
+    public function getHashFormDateString($date)
+    {
+        return $this->hash_prefix . $date;
+    }
+
+    /**
+     * 命名字段
+     *
+     * @return string 字段命名
+     */
+    public function getHashField()
+    {
+        return $this->field_prefix . $this->id;
     }
 }
