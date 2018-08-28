@@ -6,6 +6,7 @@
     </div>
 </div>
 
+{{-- 活跃用户 --}}
 @if ($active_users)
     <div class="panel panle-default">
         <div class="panel-body active_users">
@@ -20,6 +21,25 @@
                     </div>
                     <div class="media-body">
                         <span class="media-heading">{{ $active_user->name }}</span>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+    </div>
+@endif
+
+{{-- 资源推荐 --}}
+@if ($links)
+    <div class="panel panel-default">
+        <div class="panel-body recommend_links">
+            <div class="text-center">
+                资源推荐
+            </div>
+            <hr>
+            @foreach ($links as $link)
+                <a href="{{ $link->link }}" target="_blank" class="media">
+                    <div class="media-body">
+                        <span class="media-heading">{{ $link->title }}</span>
                     </div>
                 </a>
             @endforeach

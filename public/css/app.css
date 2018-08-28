@@ -8532,7 +8532,8 @@ body {
   margin-bottom: 10px;
 }
 
-.sidebar .active_users a.media {
+.sidebar .active_users a.media,
+.sidebar .recommend_links a.media {
   color: #797878;
   line-height: 26px;
   font-size: 0.9em;
