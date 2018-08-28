@@ -29,7 +29,7 @@
                         </a>
                         <span> • </span>
                         <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
-                        <span class="timeage" title="最后活跃于">{{ $topic->updated_at->diffForHumans() }}</span>
+                        <span class="timeage" title="最后更新于">{{ $topic->updated_at->diffForHumans() }}</span>
                     </div>
                 </div>
             </li>

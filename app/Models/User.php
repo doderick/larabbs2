@@ -12,6 +12,7 @@ use test\Mockery\TraitWithAbstractMethod;
 class User extends Authenticatable
 {
     use Traits\ActiveUserHelper;
+    use Traits\LastActivedAtHelper;
 
     use HasRoles;
 
