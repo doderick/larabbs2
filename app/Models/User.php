@@ -122,4 +122,57 @@ class User extends Authenticatable
         }
         $this->attributes['avatar'] = $path;
     }
+
+    /**
+     * 处理粉丝和用户之间的关联
+     *
+     * @return void
+     */
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id');
+    }
+
+    /**
+     * 处理关注的人与用户之间的关联
+     *
+     * @return void
+     */
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+    }
+
+    /**
+     * 用户关注其他用户的方法
+     *
+     * @param array|integer $user_ids 需要进行关注的用户 id
+     * @return void
+     */
+    public function follow($user_ids)
+    {
+        if (! is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->sync($user_ids, false);
+    }
+
+    public function unfollow($user_ids)
+    {
+        if (! is_array($user_ids)) {
+            $user_ids = compact('user_ids');
+        }
+        $this->followings()->detach($user_ids);
+    }
+
+    /**
+     * 判断某个用户是否被当前用户所关注的方法
+     *
+     * @param integer $user_ids 需要进行判断的用户的 id
+     * @return boolean
+     */
+    public function isFollowing($user_id)
+    {
+        return $this->followings->contains($user_id);
+    }
 }

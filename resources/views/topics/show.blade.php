@@ -16,6 +16,13 @@
                         <img src="{{ $topic->user->avatar }}" class="thumbnail img-responsive" width="300px" height="300px">
                     </a>
                 </div>
+                <hr>
+                <div class="col-xs-12">
+                    @if (Auth::check())
+
+                        @include('users._follow_form')
+                    @endif
+                </div>
             </div>
         </div>
     </div>

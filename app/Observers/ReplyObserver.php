@@ -20,10 +20,8 @@ class ReplyObserver
     {
         // 预防 XSS 攻击
         // $reply->content = clean($reply->content, 'user_topic_body');
-        if (! $reply->topic->reply_count > 0) {
-           $reply->topic->reply_count = $reply->all()->where('topic_id', $reply->topic->id)->count();
-           $reply->topic->save();
-        }
+        $this->checkReplyCountInTopicsTable($reply);
+        $this->checkReplyCountInUsersTable($reply);
     }
 
     /**
@@ -34,21 +32,44 @@ class ReplyObserver
      */
     public function created(Reply $reply)
     {
-        // 回复数 +1
+        // topics 表中回复数 +1
         $reply->topic->increment('reply_count', 1);
+
+        // users 表中用户回复数 +1
+        $reply->user->increment('reply_count', 1);
 
         // 通知作者，话题被回复
         $reply->topic->user->notify(new TopicReplied($reply));
     }
 
-    public function updating(Reply $reply)
+    public function deleting(Reply $reply)
     {
-        //
+        $this->checkReplyCountInTopicsTable($reply);
+        $this->checkReplyCountInUsersTable($reply);
     }
 
     public function deleted(Reply $reply)
     {
         // 回复数 -1
         $reply->topic->decrement('reply_count', 1);
+
+        // users 表中用户回复数 -1
+        $reply->user->decrement('reply_count', 1);
+    }
+
+    private function checkReplyCountInTopicsTable(Reply $reply)
+    {
+        if (! $reply->topic->reply_count > 0) {
+            $reply->topic->reply_count = $reply->all()->where('topic_id', $reply->topic->id)->count();
+            $reply->topic->save();
+        }
+    }
+
+    private function checkReplyCountInUsersTable(Reply $reply)
+    {
+        if (! $reply->user->reply_count > 0) {
+            $reply->user->reply_count = $reply->all()->where('user_id', $reply->user->id)->count();
+            $reply->user->save();
+        }
     }
 }

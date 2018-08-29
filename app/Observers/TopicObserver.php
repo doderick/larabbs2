@@ -12,7 +12,12 @@ class TopicObserver
 {
     public function creating(Topic $topic)
     {
-        //
+        $this->checkTopicCountInUsersTable($topic);
+    }
+
+    public function created(Topic $topic)
+    {
+        $topic->user->increment('topic_count', 1);
     }
 
     public function updating(Topic $topic)
@@ -42,6 +47,25 @@ class TopicObserver
             // $topic->slug = app(BaiduTranslateHandler::class)->translate($topic->title);
             // 推送至队列
             dispatch(new TranslateSlug($topic));
+        }
+    }
+
+    public function deleting(Topic $topic)
+    {
+        $this->checkTopicCountInUsersTable($topic);
+    }
+
+    public function deleted(Topic $topic)
+    {
+        // users 表中用户话题计数 -1
+        $topic->user->decrement('topic_count', 1);
+    }
+
+    private function checkTopicCountInUsersTable(Topic $topic)
+    {
+        if (! $topic->user->topic_count > 0) {
+            $topic->user->topic_count =  $topic->all()->where('user_id', $topic->user->id)->count();
+            $topic->user->save();
         }
     }
 }

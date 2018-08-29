@@ -8485,6 +8485,25 @@ body {
   margin: 6px 0;
 }
 
+.users-show-page .basic_info {
+  font-size: 0.9em;
+  color: #b3b3b3;
+}
+
+.users-show-page a.counter {
+  font-size: 25px;
+  color: #f4645f;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.users-show-page a.text {
+  color: #999;
+  display: block;
+  text-decoration: none;
+}
+
 /* Topic Index Page */
 
 .topics-index-page .topic-list .nav > li > a,

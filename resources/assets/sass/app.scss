@@ -131,6 +131,22 @@ body {
     .reply-content {
         margin: 6px 0;
     }
+    .basic_info {
+        font-size: 0.9em;
+        color: #b3b3b3;
+    }
+    a.counter {
+        font-size: 25px;
+        color: #f4645f;
+        display: block;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    a.text {
+        color: #999;
+        display: block;
+        text-decoration: none;
+    }
 }
 
 /* Topic Index Page */

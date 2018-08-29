@@ -1,4 +1,4 @@
-@if ($topics)
+@if (count($topics))
     <ul class="list-group">
         @foreach ($topics as $topic)
             <li class="list-group-item">
