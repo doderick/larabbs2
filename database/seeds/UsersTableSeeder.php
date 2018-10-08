@@ -18,11 +18,11 @@ class UsersTableSeeder extends Seeder
 
         // 头像数据
         $avatars = [
-            'http://larabbs3.test/images/avatar_1.png',
-            'http://larabbs3.test/images/avatar_2.png',
-            'http://larabbs3.test/images/avatar_3.png',
-            'http://larabbs3.test/images/avatar_4.png',
-            'http://larabbs3.test/images/avatar_5.png',
+            config('app.url') . '/images/avatar_1.png',
+            config('app.url') . '/images/avatar_2.png',
+            config('app.url') . '/images/avatar_3.png',
+            config('app.url') . '/images/avatar_4.png',
+            config('app.url') . '/images/avatar_5.png',
         ];
 
         // 生成数据集合
@@ -46,14 +46,14 @@ class UsersTableSeeder extends Seeder
         $user = User::find(1);
         $user->name   = 'doderick';
         $user->email  = 'doderick@outlook.com';
-        $user->avatar = 'http://larabbs3.test/images/avatar_1.png';
+        $user->avatar = config('app.url') . '/images/avatar_1.png';
         $user->save();
         $user->assignRole('Founder');
 
         $user = User::find(2);
         $user->name   = 'JJ-711';
         $user->email  = 'jiajun5427@163.com';
-        $user->avatar = 'http://larabbs3.test/images/avatar_1.png';
+        $user->avatar = config('app.url') . '/images/avatar_1.png';
         $user->save();
         $user->assignRole('Administrator');
     }
