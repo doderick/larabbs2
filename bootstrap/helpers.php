@@ -5,7 +5,7 @@
  *
  * @return void
  */
-function route_class()
+function routeToclass()
 {
     return str_replace('.', '-', Route::currentRouteName());
 }
