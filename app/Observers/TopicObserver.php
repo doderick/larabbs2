@@ -10,25 +10,37 @@ use App\Jobs\TranslateSlug;
 
 class TopicObserver
 {
+    /**
+     * Topic模型 删除时触发的动作
+     *
+     * @param Topic $topic
+     * @return void
+     */
     public function creating(Topic $topic)
     {
+        $this->checkTopicCountInCategoriesTable($topic);
         $this->checkTopicCountInUsersTable($topic);
     }
 
+    /**
+     * Topic模型 创建后触发的动作
+     *
+     * @param Topic $topic
+     * @return void
+     */
     public function created(Topic $topic)
     {
+        // users 表中用户帖子数 +1
         $topic->user->increment('topic_count', 1);
-    }
 
-    public function updating(Topic $topic)
-    {
-        //
+        // categories 表中用户帖子数 +1
+        $topic->category->increment('topic_count', 1);
     }
 
     /**
-     * 话题保存时触发事件
+     * Topic模型 保存时触发的动作
      *
-     * @param Topic $topic 触发事件的话题的实例
+     * @param Topic $topic
      * @return void
      */
     public function saving(Topic $topic)
@@ -36,31 +48,79 @@ class TopicObserver
         // XSS 过滤
         $topic->body = clean($topic->body, 'user_topic_body');
 
-        // 生成话题摘录
+        // 生成摘录
         $topic->excerpt = make_excerpt($topic->body);
     }
 
+    /**
+     * Topic模型 保存后触发的动作
+     *
+     * @param Topic $topic
+     * @return void
+     */
     public function saved(Topic $topic)
     {
-        // 如果 slug 字段无内容，则使用翻译器对 title 进行翻译
+        // 翻译并保存 slug 字段
         if (! $topic->slug) {
             // $topic->slug = app(BaiduTranslateHandler::class)->translate($topic->title);
-            // 推送至队列
+
+            // 推送到队列中
             dispatch(new TranslateSlug($topic));
         }
     }
 
+    /**
+     * Topic模型 删除时触发的动作
+     *
+     * @param Topic $topic
+     * @return void
+     */
     public function deleting(Topic $topic)
     {
+        $this->checkTopicCountInCategoriesTable($topic);
         $this->checkTopicCountInUsersTable($topic);
     }
 
+    /**
+     * Topic模型 删除后触发的动作
+     *
+     * @param Topic $topic
+     * @return void
+     */
     public function deleted(Topic $topic)
     {
-        // users 表中用户话题计数 -1
-        $topic->user->decrement('topic_count', 1);
+         // users 表中用户帖子数 +1
+         $topic->user->decrement('topic_count', 1);
+
+         // categories 表中用户帖子数 +1
+         $topic->category->decrement('topic_count', 1);
+
+         // 删除帖子的同时，删除帖子下的所有回帖
+         \DB::table('replies')->where('topic_id', $topic->id)->delete();
     }
 
+    /**
+     * 查询 Categories表 中帖子计数并进行更新的方法
+     * 此方法仅限填充伪数据后测试用，不能使用在生产环境中
+     *
+     * @param Topic $topic
+     * @return void
+     */
+    private function checkTopicCountInCategoriesTable(Topic $topic)
+    {
+        if (! $topic->category->topic_count > 0) {
+            $topic->category->topic_count =  $topic->all()->where('category_id', $topic->category->id)->count();
+            $topic->category->save();
+        }
+    }
+
+    /**
+     * 查询 Users表 中帖子计数并进行更新的方法
+     * 此方法仅限填充伪数据后测试用，不能使用在生产环境中
+     *
+     * @param Topic $topic
+     * @return void
+     */
     private function checkTopicCountInUsersTable(Topic $topic)
     {
         if (! $topic->user->topic_count > 0) {

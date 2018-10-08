@@ -13,22 +13,27 @@ class SeedCategoriesData extends Migration
      */
     public function up()
     {
+        // 填充 categories
         $categories = [
             [
                 'name'        => '分享',
                 'description' => '分享创造，分享发现',
             ],
             [
-                'name'        => '教程',
-                'description' => '开发技巧、推荐扩展包等',
+                'name'        => '问答',
+                'description' => '互帮互助，共同进步',
             ],
             [
-                'name'        => '问答',
-                'description' => '请保持友善，互帮互助',
+                'name'        => '教程',
+                'description' => '开发技巧，推荐拓展包等',
+            ],
+            [
+                'name'        => '闲聊',
+                'description' => '喝喝茶，聊聊天',
             ],
             [
                 'name'        => '公告',
-                'description' => '站点公告',
+                'description' => '社区公告',
             ],
         ];
 

@@ -64,12 +64,12 @@ return array(
             'roles',
             'permissions',
         ],
-        '内容管理' => [
+        '内容管理'   => [
             'categories',
             'topics',
-            'replies',
+            'replies'
         ],
-        '站点管理' => [
+        '站点管理'   => [
             'settings.site',
             'links',
         ],
@@ -79,11 +79,11 @@ return array(
      * The permission option is the highest-level authentication check that lets you define a closure that should return true if the current user
      * is allowed to view the admin section. Any "falsey" response will send the user back to the 'login_path' defined below.
      *
+     * 只要拥有管理内容的权限即可访问后台
+     *
      * @type closure
      */
-    'permission' => function ()
-    {
-        // 允许具有管理内容权限的用户访问后台
+    'permission' => function () {
         return Auth::check() && Auth::user()->can('manage_contents');
     },
 
@@ -128,7 +128,7 @@ return array(
      *
      * @type string
      */
-    // 'logout_path' => false,
+    'logout_path' => false,
 
     /*
      * This is the key of the return path that is sent with the redirection to your login_action. Session::get('redirect') will hold the return URL.
@@ -152,5 +152,5 @@ return array(
      */
     'locales' => [],
 
-    // 'custom_routes_file' => app_path('Http/routes/administrator.php'),
+    'custom_routes_file' => app_path('Http/routes/administrator.php'),
 );

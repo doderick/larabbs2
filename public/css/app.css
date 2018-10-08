@@ -8350,15 +8350,10 @@ button.close {
   }
 }
 
-/* Universal */
+/* universal */
 
 body {
-  font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial, sans-serif;
-}
-
-textarea {
-  resize: vertical;
-  min-height: 81px;
+  font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial,sans-serif;
 }
 
 ul,
@@ -8367,33 +8362,48 @@ li {
   list-style: none;
 }
 
+textarea {
+  resize: vertical;
+  min-height: 81px;
+}
+
 /* header */
 
 .navbar-static-top {
-  border-color: #e7e7e7;
-  background-color: #fff;
+  margin-top: 0px;
+  margin-bottom: 40px;
   -webkit-box-shadow: 0px 1px 11px 2px rgba(42, 42, 42, 0.1);
           box-shadow: 0px 1px 11px 2px rgba(42, 42, 42, 0.1);
-  border-top: 4px solid #00b5ad;
-  margin-bottom: 40px;
-  margin-top: 0px;
+  background-color: #ffffff;
 }
 
-.navbar-static-top .dropdown-menu {
+.navbar-static-top .dropdown .user-avatar {
+  margin-top: -5px;
+  margin-right: 8px;
+}
+
+.navbar-static-top .dropdown .user-avatar .img-circle {
+  width: 30px;
+  height: 30px;
+}
+
+.navbar-static-top .dropdown .dropdown-menu {
   padding: 0px;
 }
 
-.navbar-static-top .dropdown-menu li a {
+.navbar-static-top .dropdown .dropdown-menu li a {
   border-bottom: 1px solid #d8d8d8;
   line-height: 2.4;
 }
 
-.navbar-static-top .dropdown-menu li a .glyphicon {
+.navbar-static-top .dropdown .dropdown-menu li a .glyphicon {
   margin-right: 8px;
 }
 
+/* Notifications badge */
+
 .notifications-badge {
-  margin-top: -1px;
+  margin-top: -1;
 }
 
 .notifications-badge .badge-hint {
@@ -8401,10 +8411,10 @@ li {
 }
 
 .notifications-badge .badge-fade {
-  background-color: #ebe8e8;
+  background-color: #e8e8e8;
 }
 
-/* Sticky footer styles */
+/* footer */
 
 html {
   position: relative;
@@ -8412,17 +8422,15 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
 
 .footer {
   position: absolute;
-  bottom: 0;
   width: 100%;
-  /* Set the fixed height of the footer here */
   height: 60px;
-  background-color: #111;
+  background-color: #111111;
+  bottom: 0;
 }
 
 .footer .container {
@@ -8439,7 +8447,7 @@ body {
   color: inherit;
 }
 
-/* User register page */
+/* registration page */
 
 .register-page img.captcha,
 .login-page img.captcha {
@@ -8448,49 +8456,41 @@ body {
   cursor: pointer;
 }
 
-/* User profile page */
+/* user home page */
 
-.users-show-page .user-info .thumbnail {
+.users-show-page .user-info .thumbnail,
+.show-topics-page .user-info .thumbnail,
+.show-replies-page .user-info .thumbnail,
+.show-followers-page .user-info .thumbnail,
+.show-followings-page .user-info .thumbnail {
+  width: 300px;
   margin-bottom: 0px;
 }
 
-.users-show-page .nav-tabs {
-  margin-bottom: 20px;
+.users-show-page .user-info .user-introduction,
+.show-topics-page .user-info .user-introduction,
+.show-replies-page .user-info .user-introduction,
+.show-followers-page .user-info .user-introduction,
+.show-followings-page .user-info .user-introduction {
+  font-size: 1.2em;
+  font-weight: 700;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.users-show-page .nav-tabs > li.active > a {
-  background-color: #fff;
+.users-show-page .user-info .user-rank,
+.show-topics-page .user-info .user-rank,
+.show-replies-page .user-info .user-rank,
+.show-followers-page .user-info .user-rank,
+.show-followings-page .user-info .user-rank {
+  font-size: 0.8em;
 }
 
-.users-show-page .list-group .list-group-item {
-  border: none;
-  margin-bottom: 0px;
-  border-bottom: 1px solid #efefef;
-}
-
-.users-show-page .list-group .list-group-item .meta {
-  color: #b3b3b3;
-}
-
-.users-show-page .pagination {
-  margin: 12px 0;
-}
-
-.users-show-page .meta {
-  font-size: 0.9em;
-  color: #b3b3b3;
-}
-
-.users-show-page .reply-content {
-  margin: 6px 0;
-}
-
-.users-show-page .basic_info {
-  font-size: 0.9em;
-  color: #b3b3b3;
-}
-
-.users-show-page a.counter {
+.users-show-page .user-info .user-stat a.counter,
+.show-topics-page .user-info .user-stat a.counter,
+.show-replies-page .user-info .user-stat a.counter,
+.show-followers-page .user-info .user-stat a.counter,
+.show-followings-page .user-info .user-stat a.counter {
   font-size: 25px;
   color: #f4645f;
   display: block;
@@ -8498,73 +8498,221 @@ body {
   cursor: pointer;
 }
 
-.users-show-page a.text {
+.users-show-page .user-info .user-stat a.counter:hover,
+.users-show-page .user-info .user-stat a.counter:focus,
+.show-topics-page .user-info .user-stat a.counter:hover,
+.show-topics-page .user-info .user-stat a.counter:focus,
+.show-replies-page .user-info .user-stat a.counter:hover,
+.show-replies-page .user-info .user-stat a.counter:focus,
+.show-followers-page .user-info .user-stat a.counter:hover,
+.show-followers-page .user-info .user-stat a.counter:focus,
+.show-followings-page .user-info .user-stat a.counter:hover,
+.show-followings-page .user-info .user-stat a.counter:focus {
+  color: #d6514d;
+}
+
+.users-show-page .user-info .user-stat a.text,
+.show-topics-page .user-info .user-stat a.text,
+.show-replies-page .user-info .user-stat a.text,
+.show-followers-page .user-info .user-stat a.text,
+.show-followings-page .user-info .user-stat a.text {
   color: #999;
   display: block;
   text-decoration: none;
 }
 
-/* Topic Index Page */
+.users-show-page .user-info .user-link,
+.show-topics-page .user-info .user-link,
+.show-replies-page .user-info .user-link,
+.show-followers-page .user-info .user-link,
+.show-followings-page .user-info .user-link {
+  padding: 0px;
+}
 
+.users-show-page .user-info .user-link li,
+.show-topics-page .user-info .user-link li,
+.show-replies-page .user-info .user-link li,
+.show-followers-page .user-info .user-link li,
+.show-followings-page .user-info .user-link li {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.users-show-page .user-info .user-link li a,
+.show-topics-page .user-info .user-link li a,
+.show-replies-page .user-info .user-link li a,
+.show-followers-page .user-info .user-link li a,
+.show-followings-page .user-info .user-link li a {
+  text-decoration: none;
+  color: #525252;
+}
+
+.users-show-page .user-info .user-link li a:hover,
+.show-topics-page .user-info .user-link li a:hover,
+.show-replies-page .user-info .user-link li a:hover,
+.show-followers-page .user-info .user-link li a:hover,
+.show-followings-page .user-info .user-link li a:hover {
+  color: #05a1a2;
+}
+
+.users-show-page .user-info .user-link hr,
+.show-topics-page .user-info .user-link hr,
+.show-replies-page .user-info .user-link hr,
+.show-followers-page .user-info .user-link hr,
+.show-followings-page .user-info .user-link hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.users-show-page .breadcrumb,
+.show-topics-page .breadcrumb,
+.show-replies-page .breadcrumb,
+.show-followers-page .breadcrumb,
+.show-followings-page .breadcrumb {
+  background-color: #ffffff;
+}
+
+.users-show-page .breadcrumb a,
+.show-topics-page .breadcrumb a,
+.show-replies-page .breadcrumb a,
+.show-followers-page .breadcrumb a,
+.show-followings-page .breadcrumb a {
+  color: #f4645f;
+}
+
+.users-show-page .breadcrumb a:hover,
+.users-show-page .breadcrumb a:focus,
+.show-topics-page .breadcrumb a:hover,
+.show-topics-page .breadcrumb a:focus,
+.show-replies-page .breadcrumb a:hover,
+.show-replies-page .breadcrumb a:focus,
+.show-followers-page .breadcrumb a:hover,
+.show-followers-page .breadcrumb a:focus,
+.show-followings-page .breadcrumb a:hover,
+.show-followings-page .breadcrumb a:focus {
+  color: #d6514d;
+}
+
+.users-show-page .list-group .list-group-item,
+.show-topics-page .list-group .list-group-item,
+.show-replies-page .list-group .list-group-item,
+.show-followers-page .list-group .list-group-item,
+.show-followings-page .list-group .list-group-item {
+  border: none;
+  margin-bottom: 0px;
+  border-bottom: 1px solid #efefef;
+}
+
+.users-show-page .list-group .list-group-item a,
+.show-topics-page .list-group .list-group-item a,
+.show-replies-page .list-group .list-group-item a,
+.show-followers-page .list-group .list-group-item a,
+.show-followings-page .list-group .list-group-item a {
+  text-decoration: none;
+  color: #525252;
+}
+
+.users-show-page .list-group .list-group-item a:hover,
+.show-topics-page .list-group .list-group-item a:hover,
+.show-replies-page .list-group .list-group-item a:hover,
+.show-followers-page .list-group .list-group-item a:hover,
+.show-followings-page .list-group .list-group-item a:hover {
+  color: #05a1a2;
+}
+
+.users-show-page .list-group .list-group-item a .img-thumbnail,
+.show-topics-page .list-group .list-group-item a .img-thumbnail,
+.show-replies-page .list-group .list-group-item a .img-thumbnail,
+.show-followers-page .list-group .list-group-item a .img-thumbnail,
+.show-followings-page .list-group .list-group-item a .img-thumbnail {
+  width: 50px;
+  padding: 0;
+}
+
+.users-show-page .list-group .list-group-item .meta,
+.show-topics-page .list-group .list-group-item .meta,
+.show-replies-page .list-group .list-group-item .meta,
+.show-followers-page .list-group .list-group-item .meta,
+.show-followings-page .list-group .list-group-item .meta {
+  font-size: 0.8em;
+  color: #b3b3b3;
+}
+
+.users-show-page .list-group .list-group-item .reply-content,
+.show-topics-page .list-group .list-group-item .reply-content,
+.show-replies-page .list-group .list-group-item .reply-content,
+.show-followers-page .list-group .list-group-item .reply-content,
+.show-followings-page .list-group .list-group-item .reply-content {
+  font-size: 1.2em;
+  margin: 6px 0;
+}
+
+.users-show-page .list-group .list-group-item .topic-title,
+.show-topics-page .list-group .list-group-item .topic-title,
+.show-replies-page .list-group .list-group-item .topic-title,
+.show-followers-page .list-group .list-group-item .topic-title,
+.show-followings-page .list-group .list-group-item .topic-title {
+  font-size: 1.2em;
+}
+
+/* user edit page */
+
+.user-edit-page form .thumbbnail {
+  width: 100px;
+  height: 100px;
+}
+
+/* topic index page */
+
+.home-page .topic-list img.media-object,
+.topics-index-page .topic-list img.media-object,
+.categories-show-page .topic-list img.media-object {
+  width: 52px;
+}
+
+.home-page .topic-list .nav > li > a,
 .topics-index-page .topic-list .nav > li > a,
-.categories-show-page .topic-list .nav > li > a,
-.root-page .topic-list .nav > li > a {
+.categories-show-page .topic-list .nav > li > a {
   position: relative;
   display: block;
   padding: 5px 14px;
   font-size: 0.9em;
 }
 
+.home-page .topic-list a,
 .topics-index-page .topic-list a,
-.categories-show-page .topic-list a,
-.root-page .topic-list a {
-  color: #444;
+.categories-show-page .topic-list a {
+  color: #444444;
 }
 
+.home-page .topic-list .meta,
 .topics-index-page .topic-list .meta,
-.categories-show-page .topic-list .meta,
-.root-page .topic-list .meta {
+.categories-show-page .topic-list .meta {
   font-size: 0.9em;
   color: #b3b3b3;
 }
 
+.home-page .topic-list .meta a,
 .topics-index-page .topic-list .meta a,
-.categories-show-page .topic-list .meta a,
-.root-page .topic-list .meta a {
+.categories-show-page .topic-list .meta a {
   color: #b3b3b3;
 }
 
+.home-page .topic-list .badge,
 .topics-index-page .topic-list .badge,
-.categories-show-page .topic-list .badge,
-.root-page .topic-list .badge {
+.categories-show-page .topic-list .badge {
   background-color: #d8d8d8;
 }
 
+.home-page .topic-list hr,
 .topics-index-page .topic-list hr,
-.categories-show-page .topic-list hr,
-.root-page .topic-list hr {
+.categories-show-page .topic-list hr {
   margin-top: 12px;
   margin-bottom: 12px;
   border-top: 1px solid #dcebf5;
 }
 
-.sidebar .panel-body {
-  padding: 12px;
-}
-
-.sidebar hr {
-  margin-top: 8px;
-  margin-bottom: 10px;
-}
-
-.sidebar .active_users a.media,
-.sidebar .recommend_links a.media {
-  color: #797878;
-  line-height: 26px;
-  font-size: 0.9em;
-}
-
-/* Topic Show Page */
+/* topic show page */
 
 .simditor-body,
 .topic-body {
@@ -9021,8 +9169,8 @@ body {
   content: normal;
 }
 
-.topics-show-page .panel {
-  padding: 15px;
+.topics-show-page .panel .thumbnail {
+  width: 300px;
 }
 
 .topics-show-page .panel h1 {
@@ -9031,17 +9179,63 @@ body {
   line-height: 38px;
 }
 
-.topic-reply hr {
+.topics-show-page .panel .article-meta {
+  font-size: 0.8em;
+  color: #a9a7a7;
+}
+
+.topics-show-page .panel .article-meta a {
+  text-decoration: none;
+  color: #a9a7a7;
+}
+
+.topics-show-page .panel .article-meta a:hover {
+  color: #d6514d;
+}
+
+.topics-show-page .topic-reply .reply-list .img-thumbnail {
+  width: 48px;
+}
+
+.topics-show-page .topic-reply .reply-list .article-meta {
+  margin-top: 15px;
+}
+
+.topics-show-page .topic-reply .reply-list hr {
   margin-top: 16px;
   margin-bottom: 16px;
 }
 
-.topic-reply a {
+.topics-show-page .topic-reply .reply-list a {
   color: inherit;
 }
 
-.topic-reply .meta {
+/* notification index page */
+
+.notifications-index-page .notification-list .img-thumbnail {
+  width: 48px;
+}
+
+/* sidebar */
+
+.sidebar .panel-body {
+  padding: 12px;
+}
+
+.sidebar hr {
+  margin-top: 8px;
+  margin-bottom: 10px;
+}
+
+.sidebar .active-users a.media,
+.sidebar .recommend-links a.media {
+  color: #797878;
+  line-height: 26px;
   font-size: 0.9em;
-  color: #b3b3b3;
+}
+
+.sidebar .active-users a.media img.media-object,
+.sidebar .recommend-links a.media img.media-object {
+  width: 24px;
 }
 

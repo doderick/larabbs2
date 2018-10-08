@@ -1,23 +1,16 @@
-@if (count($users))
-    <ul class="media-list">
-        @foreach ($users as $user)
-            <li>
-                <div class="media-body">
-                <a href="{{ route('users.show', $user->id) }}" class="pull-left">
-                    <img src="{{ $user->avatar }}"class="media-object img-thumbnail" style="width: 52px; height: 52px;">
+@if (count($followers) > 0)
+    <ul class="list-group">
+        @foreach ($followers as $follower)
+            <li class="list-group-item">
+                <a href="{{ route('users.show', $follower->id) }}">
+                    <img src="{{ $follower->avatar }}" class="img-thumbnail img-responsive">
+                    <span>{{ $follower->name }}</span>
                 </a>
-                <a href="{{ route('users.show', $user->id) }}" class="pull-left text" style="margin-left: 10px;">{{ $user->name }}</a>
-                </div>
             </li>
-            @if (! $loop->last)
-                <hr>
-            @endif
         @endforeach
-
-        {!! $users->appends(Request::except('page'))->render() !!}
     </ul>
 @else
     <div class="empty-block">
-        还没有关注者 o(╯□╰)o
+        暂无数据 o(╯□╰)o
     </div>
 @endif

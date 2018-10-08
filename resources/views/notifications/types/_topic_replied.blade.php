@@ -2,7 +2,7 @@
     <div class="avatar pull-left">
         <a href="{{ route('users.show', $notification->data['user_id']) }}">
             <img src="{{ $notification->data['user_avatar'] }}" alt="{{ $notification->data['user_name'] }}"
-                    class="media-object img-thumbnail" style="width: 48px; height: 48px;">
+                    class="media-object img-thumbnail">
         </a>
     </div>
     <div class="infos">
@@ -10,8 +10,7 @@
             <a href="{{ route('users.show', $notification->data['user_id']) }}">{{ $notification->data['user_name'] }}</a>
             评论了
             <a href="{{ $notification->data['topic_link'] }}">{{ $notification->data['topic_title'] }}</a>
-
-            {{-- 回复删除按钮 --}}
+            {{-- 回帖删除按钮 --}}
             <span title="{{ $notification->created_at }}" class="meta pull-right">
                 <span class="glyphicon glyphicon-clock" aria-hidden="true"></span>
                  {{ $notification->created_at->diffForHumans() }}

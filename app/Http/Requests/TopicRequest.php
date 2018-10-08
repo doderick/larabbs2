@@ -2,8 +2,25 @@
 
 namespace App\Http\Requests;
 
-class TopicRequest extends Request
+use Illuminate\Foundation\Http\FormRequest;
+
+class TopicRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         switch($this->method())
@@ -25,18 +42,23 @@ class TopicRequest extends Request
             default:
             {
                 return [];
-            };
+            }
         }
     }
 
+    /**
+     * 自定义错误消息提示
+     *
+     * @return void
+     */
     public function messages()
     {
         return [
-            'title.min'            => '标题至少两个字符奈～',
-            'title.required'       => '标题不能为空哦～',
-            'body.min'             => '文章内容至少三个字符的说～',
-            'body.required'        => '文章内容不能为空哦～',
-            'category_id.required' => '必须选择一个分类哦～',
+            'title.min'            => '标题至少需要两个字符',
+            'title.required'       => '标题不能为空',
+            'body.min'             => '帖子内容至少需要三个字符',
+            'body.required'        => '帖子内容不能为空',
+            'category_id.required' => '必须选择一个分类',
         ];
     }
 }

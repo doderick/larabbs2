@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -44,15 +44,44 @@ class LoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return void
      */
-    protected function validateLogin(request $request)
+    protected function validateLogin(Request $request)
     {
         $this->validate($request, [
-            'email'    => 'required|string',
-            'password' => 'required|string',
-            'captcha'  => 'required|captcha',
-        ], [
-            'captcha.required' => '验证码不能为空',
+            $this->username() => 'required|string',
+            'password'        => 'required|string',
+            'captcha'         => 'required|captcha',
+        ],[
             'captcha.captcha'  => '请输入正确的验证码',
+            'captcha.required' => '验证码不能为空'
         ]);
+    }
+
+    /**
+     * Attempt to log the user into the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function attemptLogin(Request $request)
+    {
+        return collect(['name', 'email'])->contains(function($value) use ($request) {
+            $account  = $request->get($this->username());
+            $password = $request->get('password');
+            return $this->guard()->attempt([
+                $value     => $account,
+                'password' => $password,
+            ],
+            $request->filled('remember'));
+        });
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'account';
     }
 }

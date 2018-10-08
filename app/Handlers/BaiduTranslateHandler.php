@@ -23,16 +23,16 @@ class BaiduTranslateHandler
     }
 
     /**
-     * 翻译slug的方法
+     * 进行文本翻译的方法
      *
-     * @param [type] $text 需要翻译的文本
-     * @param string $to   目标语言，默认英语
-     * @param string $from 源语言，自动选择
-     * @return void
+     * @param string $text 需要翻译的文本
+     * @param string $to   目标语言，默认为英语，除非特殊需要，不建议改成其它语言
+     * @param string $from 源语言，支持自动识别，如果可以确认源语言，可以设定一个固定的值
+     * @return void        翻译结果
      */
     public function translate($text, $to = 'en', $from = 'auto')
     {
-        // 如果没有配置百度翻译，自动使用兼容的拼音方案
+        // 检查百度翻译的配置，如果没有配置 appid 或者 key 使用 pinyin 作为替代方案
         if (empty($this->appid) || empty($this->key)) {
             return $this->pinyin($text);
         }
@@ -40,42 +40,49 @@ class BaiduTranslateHandler
         // 实例化 HTTP 客户端
         $http = app(Client::class);
 
-        // 发送 HTTP Post 请求
+        // 发送 HTTP POST 翻译请求
         $response = $http->post($this->translateRequestToBaidu($text, $to, $from));
 
+        // 尝试 decode 返回的 json
         $result = json_decode($response->getBody(), true);
 
-        // 尝试获取翻译结果
+        // 尝试获取翻译结果，如果无法获得翻译结果，切换到 pinyin 方案
+        // 建议在翻译结果前（后）拼接前（后）缀，以免和路由发生冲突
         if (isset($result['trans_result'][0]['dst'])) {
             return str_slug($result['trans_result'][0]['dst'] . '-larabbs');
         } else {
-            // 如果没有获得翻译结果，则使用拼音作为后备方案
+            // 没有获得结果时，使用备选的 pinyin 方案
             return $this->pinyin($text);
         }
     }
 
     /**
-     * slug 翻译的备选拼音方案
+     * 翻译的备选方案 pinyin
      *
-     * @param [type] $text 需要翻译的文本
-     * @return void
+     * @param string $text 需要翻译的文本
+     * @return void        翻译的结果，加前（后）缀，以免和路由发生冲突
      */
     public function pinyin($text)
     {
-        return str_slug(app(Pinyin::class)->permalink($text) . '-larabbs');
+        // 实例化 pinyin 客户端
+        $pinyin = app(Pinyin::class);
+
+        // 返回结果
+        return str_slug($pinyin->permalink($text) . '-larabbs');
     }
 
     /**
-     * 生成翻译请求的方法
+     * 获得百度翻译请求链接的方法
      *
-     * @param [type] $text 需要翻译的文本
-     * @param [type] $to   目标语言
-     * @param [type] $from 源语言
-     * @return void
+     * @param string $text 需要翻译的文本
+     * @param string $to   目标语言
+     * @param string $from 源语言
+     * @return void        百度翻译的请求链接
      */
-    private function translateRequestToBaidu($text, $to, $from)
+    public function translateRequestToBaidu($text, $to, $from)
     {
         $salt = time();
+
         // 生成sign，方法为 sign = md5(appid+q+salt+key)
         $sign = md5($this->appid . $text . $salt . $this->key);
 
@@ -89,6 +96,6 @@ class BaiduTranslateHandler
             'sign'  => $sign,
         ]);
 
-       return $this->api . $query;
+        return $this->api . $query;
     }
 }

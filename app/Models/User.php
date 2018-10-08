@@ -7,28 +7,16 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Auth;
 use Spatie\Permission\Traits\HasRoles;
-use test\Mockery\TraitWithAbstractMethod;
 
 class User extends Authenticatable
 {
-    use Traits\ActiveUserHelper;
-    use Traits\LastActivedAtHelper;
-
-    use HasRoles;
-
     use Notifiable {
         notify as protected laravelNotify;
     }
-    public function notify($instance)
-    {
-        // 如果要通知的人是作者本人，则不进行通知
-        if ($this->id === Auth::id()) {
-            return;
-        }
-        // 每次调用 $user->notify() 时，notification_count 字段自动 +1
-        $this->increment('notification_count');
-        $this->laravelNotify($instance);
-    }
+
+    use HasRoles;
+    use Traits\ActiveUserHelper;
+    use Traits\LastActivedAtHelper;
 
     /**
      * The attributes that are mass assignable.
@@ -49,7 +37,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * 处理用户和话题之间的关联，一个用户可以拥有多个话题
+     * 处理用户和帖子之间的关联，一个用户可以拥有多条帖子
      *
      * @return void
      */
@@ -59,11 +47,11 @@ class User extends Authenticatable
     }
 
     /**
-     * 处理用户和回复之间的关联，一个用户可以拥有多条回复
+     * 处理用户和帖子之间的关联，一个用户可以拥有多条回帖
      *
      * @return void
      */
-    public function replies()
+    public function Replies()
     {
         return $this->hasMany(Reply::class);
     }
@@ -71,7 +59,7 @@ class User extends Authenticatable
     /**
      * 用户权限认证的方法
      *
-     * @param [type] $model 需要进行认证的模型
+     * @param [type] $model 需要进行权限验证的模型
      * @return boolean
      */
     public function isAuthorOf($model)
@@ -80,7 +68,23 @@ class User extends Authenticatable
     }
 
     /**
-     * 清空未读消息的方法
+     * 进行消息通知的方法
+     *
+     * @param [type] $instance
+     * @return void
+     */
+    public function notify($instance)
+    {
+        // 区分通知对象，如果是当前用户，则不进行通知
+        if ($this->id === Auth::id()) {
+            return;
+        }
+        $this->increment('notification_count');
+        $this->laravelNotify($instance);
+    }
+
+    /**
+     * 将通知消息标记为已读，同时进行清空操作的方法
      *
      * @return void
      */
@@ -92,32 +96,32 @@ class User extends Authenticatable
     }
 
     /**
-     * 对后台上传的用户的密码进行加密的方法
+     * 对数据的 password字段 修改时进行加密
      *
-     * @param string $value 后台上传的未加密的用户密码
+     * @param [type] $value 传递过来的密码值
      * @return void
      */
     public function setPasswordAttribute($value)
     {
-        // 如果值的长度等于 60， 认为已经做过加密处理
+        // 判断传递过来的密码值的长度，如果等于 60 ，则认为已做加密处理
+        // 不等于 60，进行加密
         if (strlen($value) !== 60) {
-            // 对不等于 60 的情况进行加密处理
             $value = bcrypt($value);
         }
         $this->attributes['password'] = $value;
     }
 
     /**
-     * 拼接后台上传的用户头像的 URL 的方法
+     * 对数据的 avatar字段 修改时进行完整地址拼接
      *
-     * @param string $path 后台上传的头像的 URL 地址
+     * @param [type] $path
      * @return void
      */
     public function setAvatarAttribute($path)
     {
-        // 如果不是 'http' 开头，头像为后台上传，需要补全 URL
+        // 如果图片地址以 http 或 https 开头，则图片地址为完整地址，无需拼接
+        // 如果并非以 http 或 https 开头，则需进行拼接
         if (! starts_with($path, ['http', 'https'])) {
-            // 拼接完整的 URL
             $path = config('app.url') . '/uploads/images/avatars/' . $path;
         }
         $this->attributes['avatar'] = $path;
@@ -134,19 +138,20 @@ class User extends Authenticatable
     }
 
     /**
-     * 处理关注的人与用户之间的关联
+     * 处理关注的人和用户之间的关联
      *
      * @return void
      */
     public function followings()
     {
-        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id');
+        return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id')
+                        ->withTimestamps();
     }
 
     /**
-     * 用户关注其他用户的方法
+     * 用户进行关注的方法
      *
-     * @param array|integer $user_ids 需要进行关注的用户 id
+     * @param array|integer $user_ids 需要关注的用户的id
      * @return void
      */
     public function follow($user_ids)
@@ -157,6 +162,12 @@ class User extends Authenticatable
         $this->followings()->sync($user_ids, false);
     }
 
+    /**
+     * 用户取消关注的方法
+     *
+     * @param array|integer $user_ids 需要取消关注的用户的id
+     * @return void
+     */
     public function unfollow($user_ids)
     {
         if (! is_array($user_ids)) {
@@ -166,9 +177,9 @@ class User extends Authenticatable
     }
 
     /**
-     * 判断某个用户是否被当前用户所关注的方法
+     * 判断某个用户是否被当前用户所关注
      *
-     * @param integer $user_ids 需要进行判断的用户的 id
+     * @param integer $user_id 需要进行判断的用户的id
      * @return boolean
      */
     public function isFollowing($user_id)

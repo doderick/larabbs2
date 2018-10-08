@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+
 use App\Models\User;
 
 class SyncUserActivedAt extends Command
@@ -12,14 +13,14 @@ class SyncUserActivedAt extends Command
      *
      * @var string
      */
-    protected $signature = 'larabbs2:sync-user-actived-at';
+    protected $signature = 'larabbs3:sync-user-actived-at';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = '将用户最后登录时间从 Redis 同步到数据库中';
+    protected $description = 'synchronize user last actived time from Redis to DB';
 
     /**
      * Create a new command instance.
@@ -38,8 +39,8 @@ class SyncUserActivedAt extends Command
      */
     public function handle(User $user)
     {
-        $this->info('开始同步...');
-        $user->SyncUserActivedAt();
-        $this->info('同步成功！');
+        $this->info('Start sync...');
+        $user->syncUserActivedAt();
+        $this->info('sync successed!');
     }
 }

@@ -2,8 +2,25 @@
 
 namespace App\Http\Requests;
 
-class ReplyRequest extends Request
+use Illuminate\Foundation\Http\FormRequest;
+
+class ReplyRequest extends FormRequest
 {
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules()
     {
         return [
@@ -11,6 +28,11 @@ class ReplyRequest extends Request
         ];
     }
 
+    /**
+     * 自定义错误消息提示
+     *
+     * @return void
+     */
     public function messages()
     {
         return [

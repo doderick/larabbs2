@@ -13,16 +13,13 @@ class AddReferences extends Migration
      */
     public function up()
     {
-        Schema::table('topics', function(Blueprint $table) {
-            // 当 user_id 对应的 users 表数据被删除时，删除数据
+        // 对 topics表 添加外键，user_id => users.id
+        Schema::table('topics', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
-
-        Schema::table('replies', function(Blueprint $table) {
-            // 当 user_id 对应的 users 表数据被删除时，删除数据
+        // 对 replies表 添加外键，user_id => users.id & topic_id => topics.id
+        Schema::table('replies', function (Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-
-            // 当 topic_id 对应的 topics 表中的数据被删除时，删除数据
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
         });
     }
@@ -34,10 +31,14 @@ class AddReferences extends Migration
      */
     public function down()
     {
-        // 移除外键约束
+        // 移除 topics表 的外键
         Schema::table('topics', function (Blueprint $table) {
             $table->dropForeign(['user_id']);
-            $table->dropForeign(['user_id', 'topic_id']);
+        });
+        // 移除 replies表 的外键
+        Schema::table('replies', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['topic_id']);
         });
     }
 }

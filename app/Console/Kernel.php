@@ -27,11 +27,16 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')
         //          ->hourly();
 
-        // 每小时执行一次『活跃用户』数据生成的命令
-        $schedule->command('larabbs2:calculate-active-user')->hourly();
+        // 生成活跃用户数据，一小时一次
+        $schedule->command('larabbs3:calculate-active-user')
+                ->hourly();
+        // 从 Redis 中同步 Topic 的浏览计数到数据库中，一小时一次
+        $schedule->command('larabbs3:sync-topic-view-count')
+                ->hourly();
+        // 从 Redis 中同步用户最后登录时间数据至数据库中，每日零时执行一次
+        $schedule->command('larabbs3:sync-user-actived-at')
+                ->dailyAt('00:00');
 
-        // 每日零时执行一次
-        $schedule->command('larabbs2:sync-user-actived-at')->dailyAt('00:00');
     }
 
     /**

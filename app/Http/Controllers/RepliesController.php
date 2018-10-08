@@ -2,85 +2,58 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Reply;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\ReplyRequest;
+
 use Auth;
+use App\Models\Reply;
+use App\Http\Requests\ReplyRequest;
+use App\Http\Controllers\Controller;
 
 class RepliesController extends Controller
 {
+    /**
+     * 构造中间件过滤 http 请求，只有登录用户可以访问控制器内的方法
+     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-	public function index()
-	{
-		$replies = Reply::paginate();
-		return view('replies.index', compact('replies'));
-	}
-
-    public function show(Reply $reply)
-    {
-        return view('replies.show', compact('reply'));
-    }
-
-	public function create(Reply $reply)
-	{
-		return view('replies.create_and_edit', compact('reply'));
-	}
-
     /**
-     * 用户进行回复的方法
+     * 用户发表回帖的方法
      *
-     * @param ReplyRequest $request 回复请求
-     * @param Reply $reply          回复的一个实例
+     * @param ReplyRequest $request
+     * @param Reply $reply
      * @return void
      */
     public function store(ReplyRequest $request, Reply $reply)
-	{
+    {
         // 预防 XSS 攻击
-        $content = clean($request->content);
-
-        // 过滤后如果内容为空，则返回并给出错误提示
+        $content = clean($request->content, 'user_topic_body');
+        // 如果过滤后的内容为空。不予保存到数据库
         if (empty($content)) {
-            return redirect()->back()->with('danger', '回复内容无法识别！');
+            return redirect()->back()->with('danger', '回帖内容无法识别！');
         }
 
-        $reply->content  = $content;
+        $reply->user_id = Auth::id();
         $reply->topic_id = $request->topic_id;
-        $reply->user_id  = AUth::id();
+        $reply->content = $content;
         $reply->save();
 
-		return redirect()->to($reply->topic->link())->with('success', '回复成功！');
-	}
-
-	// public function edit(Reply $reply)
-	// {
-    //     $this->authorize('update', $reply);
-	// 	return view('replies.create_and_edit', compact('reply'));
-	// }
-
-	// public function update(ReplyRequest $request, Reply $reply)
-	// {
-	// 	$this->authorize('update', $reply);
-	// 	$reply->update($request->all());
-
-	// 	return redirect()->route('replies.show', $reply->id)->with('message', 'Updated successfully.');
-	// }
+        return redirect()->to($reply->topic->link())->with('success', '回帖成功！');
+    }
 
     /**
-     * 删除回复的方法
+     * 用户删除回帖的方法
      *
-     * @param Reply $reply 回复的实例
+     * @param Reply $reply
      * @return void
      */
     public function destroy(Reply $reply)
-	{
-		$this->authorize('destroy', $reply);
-		$reply->delete();
+    {
+        $this->authorize('destroy', $reply);
+        $reply->delete();
 
-		return redirect()->to($reply->topic->link())->with('success', '删除回复成功！');
-	}
+        return redirect()->to($reply->topic->link())->with('success', '回帖已被成功删除！');
+    }
 }

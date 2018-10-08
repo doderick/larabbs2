@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\User;
+
 use Auth;
+use App\Models\User;
 
 class FollowersController extends Controller
 {
     /**
-     * 过滤http请求，仅允许登录用户访问
+     * 构建中间件过滤 http 请求，只允许登录用户访问控制器
      */
     public function __construct()
     {
@@ -24,13 +25,13 @@ class FollowersController extends Controller
      */
     public function store(User $user)
     {
-        if (Auth::user()->id === $user->id) {
-            return redirect('home');
+        if (Auth::id() === $user->id) {
+            return;
         }
-        if (!Auth::user()->isFollowing($user->id)) {
+        if (! Auth::user()->isFollowing($user->id)) {
             Auth::user()->follow($user->id);
         }
-        return redirect()->route('users.show', $user->id);
+        return redirect()->back();
     }
 
     /**
@@ -41,12 +42,12 @@ class FollowersController extends Controller
      */
     public function destroy(User $user)
     {
-        if (Auth::user()->id === $user->id) {
-            return redirect('home');
+        if (Auth::id() === $user->id) {
+            return;
         }
         if (Auth::user()->isFollowing($user->id)) {
             Auth::user()->unfollow($user->id);
         }
-        return redirect()->route('users.show', $user->id);
+        return redirect()->back();
     }
 }

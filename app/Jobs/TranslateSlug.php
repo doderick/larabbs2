@@ -35,7 +35,7 @@ class TranslateSlug implements ShouldQueue
      */
     public function handle()
     {
-        // 请求百度翻译 API 接口进行翻译
+        // 调用翻译接口进行翻译
         $slug = app(BaiduTranslateHandler::class)->translate($this->topic->title);
 
         // 为了避免模型监控器死循环调用，我们使用 DB 类直接对数据库进行操作

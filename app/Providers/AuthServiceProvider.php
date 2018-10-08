@@ -13,10 +13,10 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-		 \App\Models\Reply::class => \App\Policies\ReplyPolicy::class,
-		 \App\Models\Topic::class => \App\Policies\TopicPolicy::class,
         'App\Model' => 'App\Policies\ModelPolicy',
         \App\Models\User::class => \App\Policies\UserPolicy::class,
+        \App\Models\Topic::class => \App\Policies\TopicPolicy::class,
+        \App\Models\Reply::class => \App\Policies\ReplyPolicy::class,
     ];
 
     /**
@@ -28,9 +28,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // 限制 Horizon 的访问权限，仅站长可以访问
-        \Horizon::auth(function ($request) {
-            return \Auth::user()->hasRole('Founder');
-        });
-;    }
+        // 判断 Horizon工具 的访问权限
+        // 仅站长可以访问
+            \Horizon::auth(function ($request) {
+                return \Auth::user()->hasRole('Founder');
+            });
+    }
 }

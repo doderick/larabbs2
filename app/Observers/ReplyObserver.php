@@ -11,23 +11,21 @@ use App\Notifications\TopicReplied;
 class ReplyObserver
 {
     /**
-     * 回复创建时执行的动作
+     * Reply模型 创建时触发的动作
      *
-     * @param Reply $reply 创建的回复实例
+     * @param Reply $reply
      * @return void
      */
     public function creating(Reply $reply)
     {
-        // 预防 XSS 攻击
-        // $reply->content = clean($reply->content, 'user_topic_body');
         $this->checkReplyCountInTopicsTable($reply);
         $this->checkReplyCountInUsersTable($reply);
     }
 
     /**
-     * 回复被创建后执行的动作
+     * Reply模型 创建之后触发的动作
      *
-     * @param Reply $reply 回复的一个实例
+     * @param Reply $reply
      * @return void
      */
     public function created(Reply $reply)
@@ -38,25 +36,56 @@ class ReplyObserver
         // users 表中用户回复数 +1
         $reply->user->increment('reply_count', 1);
 
-        // 通知作者，话题被回复
+        // 通知作者帖子被回复
         $reply->topic->user->notify(new TopicReplied($reply));
     }
 
+    /**
+     * Reply模型 保存时触发的动作
+     *
+     * @param Reply $reply
+     * @return void
+     */
+    public function saving(Reply $reply)
+    {
+        // XSS 过滤
+        $reply->content = clean($reply->content, 'user_topic_body');
+    }
+
+    /**
+     * Reply模型 删除时触发的动作
+     *
+     * @param Reply $reply
+     * @return void
+     */
     public function deleting(Reply $reply)
     {
         $this->checkReplyCountInTopicsTable($reply);
         $this->checkReplyCountInUsersTable($reply);
     }
 
+    /**
+     * Reply模型 删除后触发的动作
+     *
+     * @param Reply $reply
+     * @return void
+     */
     public function deleted(Reply $reply)
     {
-        // 回复数 -1
-        $reply->topic->decrement('reply_count', 1);
+         // users 表中用户帖子数 +1
+         $reply->user->decrement('reply_count', 1);
 
-        // users 表中用户回复数 -1
-        $reply->user->decrement('reply_count', 1);
+         // topics 表中用户帖子数 +1
+         $reply->topic->decrement('reply_count', 1);
     }
 
+    /**
+     * 查询 Topics表 中回帖计数并进行更新的方法
+     * 此方法仅限填充伪数据后测试用，不能使用在生产环境中
+     *
+     * @param Reply $reply
+     * @return void
+     */
     private function checkReplyCountInTopicsTable(Reply $reply)
     {
         if (! $reply->topic->reply_count > 0) {
@@ -65,6 +94,13 @@ class ReplyObserver
         }
     }
 
+    /**
+     * 查询 Users表 中回帖计数并进行更新的方法
+     * 此方法仅限填充伪数据后测试用，不能使用在生产环境中
+     *
+     * @param Reply $reply
+     * @return void
+     */
     private function checkReplyCountInUsersTable(Reply $reply)
     {
         if (! $reply->user->reply_count > 0) {

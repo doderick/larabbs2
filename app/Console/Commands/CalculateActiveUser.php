@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+
 use App\Models\User;
 
 class CalculateActiveUser extends Command
@@ -12,14 +13,14 @@ class CalculateActiveUser extends Command
      *
      * @var string
      */
-    protected $signature = 'larabbs2:calculate-active-user';
+    protected $signature = 'larabbs3:calculate-active-user';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'calculate and cache active users';
+    protected $description = 'Calculate active users';
 
     /**
      * Create a new command instance.
@@ -38,11 +39,8 @@ class CalculateActiveUser extends Command
      */
     public function handle(User $user)
     {
-        // 在命令行打印一条信息
-        $this->info('开始计算...');
-        // 计算并缓存活跃用户
+        $this->info('Start calculation...');
         $user->calculateAndCacheActiveUsers();
-        // 完成之后再打印信息
-        $this->info('成功生成！');
+        $this->info('Calculation successed!');
     }
 }

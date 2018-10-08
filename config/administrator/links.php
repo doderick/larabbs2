@@ -3,16 +3,14 @@
 use App\Models\Link;
 
 return [
-    'title'  => '资源推荐',
-    'single' => '资源推荐',
-    'model'  => Link::class,
-
-    // 限制站长管理资源推荐链接
-    'peimission' => function() {
+    'title'       => '推荐资源',
+    'single'      => '推荐资源',
+    'model'       => Link::class,
+    'permission'  => function()
+    {
         return Auth::user()->hasRole('Founder');
     },
-
-    'columns' => [
+    'columns'     => [
         'id'        => [
             'title' => 'ID',
         ],
@@ -26,10 +24,9 @@ return [
         ],
         'operation' => [
             'title'    => '管理',
-            'sortable' => 'false',
+            'sortable' => false,
         ],
     ],
-
     'edit_fields' => [
         'title' => [
             'title' => '资源名称',
@@ -38,10 +35,9 @@ return [
             'title' => '资源链接',
         ],
     ],
-
-    'filters' => [
+    'filters'     => [
         'id'    => [
-            'title' => '标签 ID',
+            'title' => '资源 ID',
         ],
         'title' => [
             'title' => '资源名称',

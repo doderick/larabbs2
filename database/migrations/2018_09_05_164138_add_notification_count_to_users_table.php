@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddTopicsCountRepliesCountToUsersTable extends Migration
+class AddNotificationCountToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,7 @@ class AddTopicsCountRepliesCountToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('topic_count')->unsigned()->default(0);
-            $table->integer('reply_count')->unsigned()->default(0);
+            $table->integer('notification_count')->unsigned()->default(0)->comment('收到的通知计数');
         });
     }
 
@@ -27,8 +26,7 @@ class AddTopicsCountRepliesCountToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('topic_count');
-            $table->dropColumn('reply_count');
+            $table->dropColumn('notification_count');
         });
     }
 }

@@ -10,16 +10,15 @@
                     <span class="glyphicon glyphicon-bell" aria-hidden="true"></span> 我的通知
                 </h3>
                 <hr>
-                @if ($notifications->count())
+                @if ($notifications->count() > 0 )
                     <div class="notification-list">
                         @foreach ($notifications as $notification)
                             @include('notifications.types._' . snake_case(class_basename($notification->type)))
                         @endforeach
-
-                        {!! $notifications->render() !!}
+                        {!! $notifications->appends(Request::except('page'))->render()!!}
                     </div>
                 @else
-                    <div class="empty-block">没有新的消息通知！</div>
+                    <div class="empty">没有新的消息通知！</div>
                 @endif
             </div>
         </div>

@@ -7,28 +7,28 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
     /**
-     * 访问首页的方法
+     * 返回主页的方法
      *
      * @return void
      */
-    public function root()
+    public function home()
     {
-        return view('pages.root');
+        return view('pages.home');
     }
 
     /**
-     * 当前用户访问后台被拒绝之后，跳转的方法
+     * 访问后台时进行跳转的方法
      *
      * @return void
      */
     public function permissionDenied()
     {
-        // 如果当前用户有权限访问后台，直接跳转访问
+        // 如果当前用户具有访问后台的权限，跳转至后台
         if (config('administrator.permission')()) {
             return redirect(url(config('administrator.uri')), 302);
         }
 
-        // 如果没有权限，返回拒绝访问的视图
+        // 如果没有访问权限，则返回拒绝访问的视图
         return view('pages.permission_denied');
     }
 }

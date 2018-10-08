@@ -7,17 +7,33 @@ use App\Models\Reply;
 
 class ReplyPolicy extends Policy
 {
+    /**
+     * Create a new policy instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    /**
+     * 回帖 update 动作的权限认证
+     *
+     * @param User $user   提出 update 请求的用户
+     * @param Topic $topic 需要进行 update 的回帖
+     * @return void
+     */
     public function update(User $user, Reply $reply)
     {
-        // return $reply->user_id == $user->id;
         return true;
     }
 
     /**
-     * 删除回复的权限验证
+     * 回帖 destroy 动作的权限认证
      *
-     * @param User $user   当前登录用户
-     * @param Reply $reply 要删除的回复
+     * @param User $user   提出 destroy 请求的用户
+     * @param Topic $topic 需要进行 destroy 的回帖
      * @return void
      */
     public function destroy(User $user, Reply $reply)

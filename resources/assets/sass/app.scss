@@ -1,85 +1,82 @@
+
 // Variables
 @import "variables";
 
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
 
-/* Universal */
+/* universal */
 
 body {
-    font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial, sans-serif;
+    font-family: Hiragino Sans GB, "Hiragino Sans GB", Helvetica, "Microsoft YaHei", Arial,sans-serif;
 }
-
+ul, ol, li {
+    list-style: none;
+}
 textarea {
     resize: vertical;
     min-height: 81px;
 }
 
-ul, ol, li {
-    list-style: none;
-}
-
 /* header */
-
 .navbar-static-top {
-    border-color: #e7e7e7;
-    background-color: #fff;
-    box-shadow: 0px 1px 11px 2px rgba(42, 42, 42, 0.1);
-    border-top: 4px solid #00b5ad;
-    margin-bottom: 40px;
     margin-top: 0px;
-    .dropdown-menu {
-        padding: 0px;
-        li a {
-            border-bottom: 1px solid #d8d8d8;
-            line-height: 2.4;
-            .glyphicon {
-                margin-right: 8px;
+    margin-bottom: 40px;
+    box-shadow: 0px 1px 11px 2px rgba(42, 42, 42, 0.1);
+    background-color: #ffffff;
+    .dropdown {
+        .user-avatar {
+            margin-top: -5px;
+            margin-right: 8px;
+            .img-circle {
+                width: 30px;
+                height: 30px;
+            }
+        }
+        .dropdown-menu {
+            padding: 0px;
+            li a {
+                border-bottom: 1px solid #d8d8d8;
+                line-height: 2.4;
+                .glyphicon {
+                    margin-right: 8px;
+                }
             }
         }
     }
 }
 
+/* Notifications badge */
 .notifications-badge {
-    margin-top: -1px;
+    margin-top: -1;
     .badge-hint {
         background-color: #d15b47 !important;
     }
     .badge-fade {
-        background-color: #ebe8e8;
+        background-color: #e8e8e8;
     }
 }
 
-/* Sticky footer styles */
-
+/* footer */
 html {
     position: relative;
     min-height: 100%;
 }
-
 body {
-    /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
-
 .footer {
     position: absolute;
-    bottom: 0;
     width: 100%;
-
-    /* Set the fixed height of the footer here */
-
     height: 60px;
-    background-color: #111;
-
+    background-color: #111111;
+    bottom: 0;
     .container {
         padding-left: 15px;
         padding-right: 15px;
-
         p {
             margin: 19px 0;
             color: #c1c1c1;
-
             a {
                 color: inherit;
             }
@@ -87,8 +84,7 @@ body {
     }
 }
 
-/* User register page */
-
+/* registration page */
 .register-page, .login-page {
     img.captcha {
         margin-top: 10px;
@@ -97,18 +93,71 @@ body {
     }
 }
 
-/* User profile page */
-
-.users-show-page {
+/* user home page */
+.users-show-page,
+.show-topics-page,
+.show-replies-page,
+.show-followers-page,
+.show-followings-page {
     .user-info {
         .thumbnail {
+            width: 300px;
             margin-bottom: 0px;
         }
+        .user-introduction {
+            font-size: 1.2em;
+            font-weight: 700;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        .user-rank {
+            font-size: 0.8em;
+        }
+        .user-stat {
+            a.counter {
+                font-size: 25px;
+                color: #f4645f;
+                display: block;
+                text-decoration: none;
+                cursor: pointer;
+                &:hover,
+                &:focus {
+                    color: #d6514d;
+                }
+            }
+            a.text {
+                color: #999;
+                display: block;
+                text-decoration: none;
+            }
+        }
+        .user-link {
+            padding: 0px;
+            li {
+                margin-top: 15px;
+                margin-bottom: 15px;
+                a {
+                text-decoration: none;
+                color: #525252;
+                &:hover {
+                    color: #05a1a2;
+                    }
+                }
+            }
+            hr {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
     }
-    .nav-tabs {
-        margin-bottom: 20px;
-        > li.active > a {
-            background-color: #fff;
+    .breadcrumb {
+        background-color: #ffffff;
+        a {
+            color: #f4645f;
+            &:hover,
+            &:focus {
+                color: #d6514d;
+            }
         }
     }
     .list-group {
@@ -116,42 +165,50 @@ body {
             border: none;
             margin-bottom: 0px;
             border-bottom: 1px solid #efefef;
+            a {
+                text-decoration: none;
+                color: #525252;
+                &:hover {
+                    color: #05a1a2;
+                }
+                .img-thumbnail {
+                    width: 50px;
+                    padding: 0;
+                }
+            }
             .meta {
+                font-size: 0.8em;
                 color: #b3b3b3;
+            }
+            .reply-content {
+                font-size: 1.2em;
+                margin: 6px 0;
+            }
+            .topic-title {
+                font-size: 1.2em;
             }
         }
     }
-    .pagination {
-        margin: 12px 0;
-    }
-    .meta {
-        font-size: 0.9em;
-        color: #b3b3b3;
-    }
-    .reply-content {
-        margin: 6px 0;
-    }
-    .basic_info {
-        font-size: 0.9em;
-        color: #b3b3b3;
-    }
-    a.counter {
-        font-size: 25px;
-        color: #f4645f;
-        display: block;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    a.text {
-        color: #999;
-        display: block;
-        text-decoration: none;
+}
+
+/* user edit page */
+.user-edit-page {
+    form {
+        .thumbbnail {
+            width: 100px;
+            height: 100px;
+        }
     }
 }
 
-/* Topic Index Page */
-.topics-index-page, .categories-show-page, .root-page {
+/* topic index page */
+.home-page,
+.topics-index-page,
+.categories-show-page {
     .topic-list {
+        img.media-object {
+            width: 52px;
+        }
         .nav > li > a {
             position: relative;
             display: block;
@@ -159,13 +216,13 @@ body {
             font-size: 0.9em;
         }
         a {
-            color: #444;
+            color: #444444;
         }
         .meta {
             font-size: 0.9em;
             color: #b3b3b3;
             a {
-                color: #b3b3b3;;
+                color: #b3b3b3;
             }
         }
         .badge {
@@ -179,6 +236,59 @@ body {
     }
 }
 
+/* topic show page */
+@import "topic_body";
+.topics-show-page {
+    .panel {
+        .thumbnail {
+            width: 300px;
+        }
+        h1 {
+            margin: 0.4em auto 0.6em;
+            font-size: 28px;
+            line-height: 38px;
+        }
+        .article-meta {
+            font-size: 0.8em;
+            color: #a9a7a7;
+            a {
+                text-decoration: none;
+                color: #a9a7a7;
+                &:hover {
+                    color: #d6514d;
+                }
+            }
+        }
+    }
+    .topic-reply {
+        .reply-list {
+            .img-thumbnail {
+                width: 48px;
+            }
+            .article-meta {
+                margin-top: 15px;
+            }
+            hr {
+                margin-top: 16px;
+                margin-bottom: 16px;
+            }
+            a {
+                color: inherit;
+            }
+        }
+    }
+}
+
+/* notification index page */
+.notifications-index-page {
+    .notification-list {
+        .img-thumbnail {
+            width: 48px;
+        }
+    }
+}
+
+/* sidebar */
 .sidebar {
     .panel-body {
         padding: 12px;
@@ -187,40 +297,15 @@ body {
         margin-top: 8px;
         margin-bottom: 10px;
     }
-    .active_users, .recommend_links {
+    .active-users,
+    .recommend-links {
         a.media {
             color: #797878;
             line-height: 26px;
             font-size: 0.9em;
+            img.media-object {
+                width: 24px;
+            }
         }
-    }
-}
-
-/* Topic Show Page */
-
-@import "topic_body";
-
-.topics-show-page {
-    .panel {
-        padding: 15px;
-        h1 {
-            margin: 0.4em auto 0.6em;
-            font-size: 28px;
-            line-height: 38px;
-        }
-    }
-}
-
-.topic-reply {
-    hr {
-        margin-top: 16px;
-        margin-bottom: 16px;
-    }
-    a {
-        color: inherit;
-    }
-    .meta {
-        font-size: 0.9em;
-        color: #b3b3b3;
     }
 }

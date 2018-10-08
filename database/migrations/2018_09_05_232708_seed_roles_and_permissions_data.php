@@ -18,7 +18,7 @@ class SeedRolesAndPermissionsData extends Migration
     public function up()
     {
         // 清除缓存
-        app()['cache']->forget('spaite.permission.cache');
+        app()['cache']->forget('spatie.permission.cache');
 
         // 创建权限
         Permission::create(['name' => 'manage_contents']);
@@ -36,7 +36,6 @@ class SeedRolesAndPermissionsData extends Migration
         $administrator->givePermissionTo([
             'manage_contents',
         ]);
-
     }
 
     /**
@@ -57,6 +56,5 @@ class SeedRolesAndPermissionsData extends Migration
         DB::table($tableNames['model_has_roles'])->delete();
         DB::table($tableNames['permissions'])->delete();
         DB::table($tableNames['roles'])->delete();
-
     }
 }
