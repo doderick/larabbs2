@@ -39,7 +39,7 @@
             "database/factories"
         ],
         "files": [
-            "app/Http/helpers.php"
+            "bootstrap/helpers.php"
         ],
         "psr-4": {
             "App\\": "app/"
