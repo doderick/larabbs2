@@ -13,13 +13,13 @@ class VerificationCodesController extends Controller
         $phone = $request->phone;
 
         // 对于非生产环境并不需要发送真实的验证码
-        if (! app()->environment('production')) {
-            $code = '1234';
-        } else {
+        // if (! app()->environment('production')) {
+        //    $code = '1234';
+        // } else {
             // 生成随机 4 位数，左侧补零
             $code = str_pad(random_int(1, 9999), 4, 0, STR_PAD_LEFT);
 
-            $min = 5;
+            $min = 10;
 
             try {
                 $result = $easySms->send($phone, [
@@ -31,7 +31,7 @@ class VerificationCodesController extends Controller
             }
 
             $key = 'verificationCode_' . str_random(15);
-            $expiredAt = now()->addMinutes(5);
+            $expiredAt = now()->addMinutes(10);
             // 缓存验证码， 5分钟过期
             \Cache::put($key, ['phone' => $phone, 'code' => $code], $expiredAt);
 
@@ -40,5 +40,5 @@ class VerificationCodesController extends Controller
                 'expired_at' => $expiredAt->toDateTimeString(),
             ])->setStatusCode(201);
         }
-    }
+    // }
 }
