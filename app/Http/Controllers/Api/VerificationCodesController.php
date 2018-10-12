@@ -10,12 +10,24 @@ class VerificationCodesController extends Controller
 {
     public function store(VerificationCodeRequest $request, EasySms $easySms)
     {
-        $phone = $request->phone;
+        $captchaData = \Cache::get($request->captcha_key);
+
+        if (! $captchaData) {
+            return $this->response->error('图片验证码已失效', 422);
+        }
+
+        if (! hash_equals($captchaData['code'], $request->captcha_code)) {
+            // 验证码错误则清除缓存
+            \Cache::forget($request->captcha_key);
+            return $this->response->errorUnauthorized('验证码错误');
+        }
+
+        $phone = $captchaData['phone'];
 
         // 对于非生产环境并不需要发送真实的验证码
-        // if (! app()->environment('production')) {
-        //    $code = '1234';
-        // } else {
+        if (! app()->environment('production')) {
+           $code = '1234';
+        } else {
             // 生成随机 4 位数，左侧补零
             $code = str_pad(random_int(1, 9999), 4, 0, STR_PAD_LEFT);
 
@@ -29,16 +41,18 @@ class VerificationCodesController extends Controller
                 $message = $exception->getException('qcloud')->getMessage();
                 return $this->response->errorInternal($message ?? '短信发送异常');
             }
-
-            $key = 'verificationCode_' . str_random(15);
-            $expiredAt = now()->addMinutes(10);
-            // 缓存验证码， 5分钟过期
-            \Cache::put($key, ['phone' => $phone, 'code' => $code], $expiredAt);
-
-            return $this->response->array([
-                'key' => $key,
-                'expired_at' => $expiredAt->toDateTimeString(),
-            ])->setStatusCode(201);
         }
-    // }
+
+        $key = 'verificationCode_' . str_random(15);
+        $expiredAt = now()->addMinutes(10);
+        // 缓存验证码， 10分钟过期
+        \Cache::put($key, ['phone' => $phone, 'code' => $code], $expiredAt);
+        // 清除图片验证码缓存
+        \Cache::forget($request->captcha_key);
+
+        return $this->response->array([
+            'key'        => $key,
+            'expired_at' => $expiredAt->toDateTimeString(),
+        ])->setStatusCode(201);
+    }
 }
