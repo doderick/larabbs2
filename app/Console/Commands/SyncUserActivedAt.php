@@ -13,7 +13,7 @@ class SyncUserActivedAt extends Command
      *
      * @var string
      */
-    protected $signature = 'larabbs3:sync-user-actived-at';
+    protected $signature = 'larabbs:sync-user-actived-at';
 
     /**
      * The console command description.
