@@ -7,8 +7,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use Auth;
 use Spatie\Permission\Traits\HasRoles;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable {
         notify as protected laravelNotify;
@@ -25,6 +26,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'phone', 'email', 'password', 'avatar', 'introduction',
+        'weixin_openid', 'weixin_unionid',
     ];
 
     /**
@@ -185,5 +187,17 @@ class User extends Authenticatable
     public function isFollowing($user_id)
     {
         return $this->followings->contains($user_id);
+    }
+
+    // Rest omitted for brevity
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
