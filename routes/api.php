@@ -54,8 +54,15 @@ $api->version('v1', [
         'exptres'    => config('api.rate_limits.sign.expires'),
     ], function($api) {
         // 游客可以访问的接口
+        // 访问分类
         $api->get('categories', 'CategoriesController@index')
             ->name('api.categories.index');
+        // 访问帖子列表
+        $api->get('topics', 'TopicsController@index')
+            ->name('api.topics.index');
+        // 访问某个用户的帖子
+        $api->get('users/{user}/topics', 'TopicsController@userIndex')
+            ->name('api.users.topics.index');
 
         // 需要 token 验证的接口
         $api->group([
