@@ -60,6 +60,9 @@ $api->version('v1', [
         // 访问帖子列表
         $api->get('topics', 'TopicsController@index')
             ->name('api.topics.index');
+        // 访问帖子详情
+        $api->get('topics/{topic}', 'TopicsController@show')
+            ->name('api.topics.show');
         // 访问某个用户的帖子
         $api->get('users/{user}/topics', 'TopicsController@userIndex')
             ->name('api.users.topics.index');
