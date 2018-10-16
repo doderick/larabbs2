@@ -33,5 +33,13 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.debug')) {
             $this->app->register('VIACreative\SudoSu\ServiceProvider');
         }
+
+        \API::error(function (\Illuminate\Database\Eloquent\ModelNotFoundException $exception) {
+            abort(404);
+        });
+
+        \API::error(function (\Illuminate\Auth\Access\AuthorizationException $exception) {
+            abort(403, $exception->getMessage());
+        });
     }
 }
