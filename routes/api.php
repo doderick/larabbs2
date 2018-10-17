@@ -66,6 +66,12 @@ $api->version('v1', [
         // 访问某个用户的帖子
         $api->get('users/{user}/topics', 'TopicsController@userIndex')
             ->name('api.users.topics.index');
+        // 访问帖子回复列表
+        $api->get('topics/{topic}/replies', 'RepliesController@index')
+            ->name('api.topics.replies.index');
+        // 访问某个用户的回帖列表
+        $api->get('users/{user}/replies', 'RepliesController@userIndex')
+            ->name('api.users.replies.index');
 
         // 需要 token 验证的接口
         $api->group([
